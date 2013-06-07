@@ -68,7 +68,7 @@ However Cloud implementation neutrality increases the interoperability challenge
 
 Interoperability of appliance distribution is one of the first dependencies in the process, of creating a federated cloud. This paper is focused on some of the issues surrounding Virtual Appliance Image Management in a federated cloud environment and how it was solved by EGI FedCloud taskforce in a Federated way, with a distributed image management system, and shared policies on apllance lifecycle and non repudiation of apllicance images, while leaving sites with control of which Appliance's they allow to run on their infractursutre.
 
-It is organised in the following sections. First, Section~\ref{sect-relatedwork} presents the state of the art regarding cloud frameworks with virtual appliance management, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, how these tools are federated, how it was implemented by EGI FedCloud project and how it was configured at CESGA. 
+It is organised in the following sections. First, Section~\ref{sect-fedimagemanagement} presents the state of the art federated virtual appliance management, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, how these tools are federated, how it was implemented by EGI FedCloud project and how it was configured at CESGA. 
 Section~\ref{sect-handlers} explains how VMcatcher event handlers work, and how allow different plugins for cloud frameworks like OpenNebula or OpenStack to synchronise VM images between heterogeneous cloud technologies. 
 Finally Section~\ref{sect-conclusions} will present the conclusions and future work.  
 
@@ -93,7 +93,7 @@ There are still other comparable solutions, Lagar-Cavilla et al.~\cite{Lagar-Cav
 
 
 \section{VMcaster/VMcatcher image management interface}
-\label{sect-vmcaster}
+\label{sect-fedimagemanagement}
 VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} generate and subscribe to virtual machine image lists~\cite{hepix} respecitivly. In many senses VMcatcher is similar to Debian's \textit{aptitude} or the rpm update management \textit{yum} utilities or a podcast subscriber, while VMcaster is a tool for making secure respotories in a similar way to \textit{create-repo}. This distributed model, requires appliance maintainers to provide a http server, and use a x509 certificate in making thier imagelists available, and finally inform potential subscribers of thier imagelists location. It is truely distributed and relies on no centralised server, so with suitable policy development can become a 
 
 These tools use an internal database where image information and lists are stored into an internal SQLite database.
@@ -323,12 +323,32 @@ The new package (\textit{glancepush-vmcatcher}) is available from IN2P3 ftp serv
 
 \section{Conclusions and Future work}
 \label{sect-conclusions}
-Having shown that the use of Hepix imagelists can provide a distributed image distribution framework, using IGTF based identity provison, and the Hepix image endorsement policies as a guide it is clear that using this model and the provided tooos of vmcatcher and vmcaster, the EGI Fed Cloud taskforce needs to develop policies applicable to a wider range of comunites to build this federation.
+The management of virtual machine images is a critical task within a federated cloud architecture and requires appropriate policies to be developed. Fedcloud resource providers are using a heterogenous cloud frameworks ecosystem (OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). This hetrogenious federated infrastructure can casue users to be presented with a complex aray of interfaces. HVWG image lists provide a simple interface for publishers to share thier images with many sites. Being a simple JSON metadata file signed with SMIME and referancing images with secure hases seems an apropriate interface for the Appliance maintainer.
+
+Having tested the use of Hepix proposed image distribution system, and the associated tools vmcatcher and vmcaster it has proved its self as a distributed system for image distribution, as demonstrated in the Federated Cloud Demo (we need a citation), and without a single point of failure. Once CESGA impleemnted the nessisary handler to integrate vmcatcher with Open Nebular (and similar work was provided by IN2P3) fully automated image updates between more than one site in both directions have been shown to work. Combined with the Hepix security policy, the image management system in testing has shown itself to be a basis of a full automated, federated image distribution system in practice and currently prodcution grade.
+
+Testing and practice has shown that not all appliance producers regularly upgrade thier images. If applince maintianers do update it is unusual that they do so at the frequancy expected by the Hepix virtualisation working group. By providing greater isolation at the netwrok level, NIKEF and Oxford University in particular, have long suggested that they are capable of running insecure images, without fear of applinaces negatively effecting each other. CESGA is planing on developing policies and practices to also atchive this in the future. 
+
+In light of the flexability allowed by greater nextork isolation, the monthly update recomendations from the Hepix Virtualisation Working group now seem overly optomistic. The flexabilities in Cloud netowrking capabilities where not forseen in the Hepix proposals and consiquently the ability to run poterntially outdated Appliances in a secured networking enviroment, where not addressed by the HVWG. This said we still find value in the secuirty model of the HPVWG's proposals, especially the use of IGTF based identity provison, the clear defintion of valid and invalid images, and the Hepix image endorsement policies as a guide for future work in the Federated cloud task force.
+
+
+
+the EGI Fed Cloud taskforce needs to develop policies applicable to a wider range of comunites to build this federation.
+
+are assumed to be essential, and a federated system image management system seems a natural fit. 
+
+
+For these reasons we consider that the infrastructure provided by the Hepix Virtualisation working group forfills the needs of a EGI Tederated Cloud tasjkforce but recomend that the policies provided are updated to reflect the variety of assurances expected at sites in the Fedwerated cloud task force, and expected to be supported by CESGA in the future.
+
+From our experinace using vmcatcher and vmcaster to implement a federated Applicance management system, we must recomend that the Federated Cloud taskforce provides further work developing apropriate policies to allow endorsers and sites tro agree on a variety of update policies.
+
+
+, using IGTF based identity provison, and the Hepix image endorsement policies as a guide it is clear that using this model and the provided tooos of vmcatcher and vmcaster, the EGI Fed Cloud taskforce needs to develop policies applicable to a wider range of comunites to build this federation.
 
 
 The management of virtual machine images is a critical task within a federated cloud architecture. It involves certain safety standards and special scalability and availability and stability patterns.
 Taking these requirements into account Fedcloud task force have chosen VMcaster and VMcatcher utilities to distribute and validate VM images between the resource providers.
-Fedcloud resource providers are using a heterogenous cloud frameworks ecosystem (OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). This kind of federated infrastructure requires agnostic tools.
+
 Fortunately as we have explained in this paper, VMcatcher can be used by any cloud framework to distribute and update images in a transparent way. 
 The new image management tools are being used by EGI Fedcloud providers since last year successfully and probably it will be used in more use cases in the near future.
 
