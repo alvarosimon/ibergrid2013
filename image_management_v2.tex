@@ -64,9 +64,9 @@ With the development of Federated cloud infrastructures, Maintainers of virtual 
 %
 With virtual appliances on Cloud IaaS resources the complications for integrating multiple components and dependencies of a service can be managed closer to the appliance creator and maintainer without need for the cloud provider to be involved. Cloud IaaS has shown great commercial success, so much so that new cloud software stacks are being developed, and many companies and research institutes are deploying these clouds for both public and private use. EGI-inspire brings together many sites, running multiple IaaS Cloud implementations as a Federated cloud. As part of this effort they are making efforts to help abstract away these differences so that Virtual Appliance users and maintainers can remain IaaS implementation and site neutral.
 
-However Cloud implementation neutrality increases the inter operability challenges. A federated cloud increases this difficulty still further, as different clouds with corresponding APIs, Appliance formats, and different contextualisation mechanism must be supported in a truly federated Cloud. 
+However Cloud implementation neutrality increases the interoperability challenges. A federated cloud increases this difficulty still further, as different clouds with corresponding APIs, Appliance formats, and different contextualisation mechanism must be supported in a truly federated Cloud. 
 
-Inter operability of Appliance distribution is one of the first dependencies in the process, of creating a federated cloud. This paper is focused on some of the issues surrounding Virtual Appliance Image Management in a federated cloud environment and how it was solved by EGI FedCloud taskforce in a Federated way, with no reliance on a central service or set of resources.
+Interoperability of appliance distribution is one of the first dependencies in the process, of creating a federated cloud. This paper is focused on some of the issues surrounding Virtual Appliance Image Management in a federated cloud environment and how it was solved by EGI FedCloud taskforce in a Federated way, with a distributed image management system, and shared policies on apllance lifecycle and non repudiation of apllicance images, while leaving sites with control of which Appliance's they allow to run on their infractursutre.
 
 It is organised in the following sections. First, Section~\ref{sect-relatedwork} presents the state of the art regarding cloud frameworks with virtual appliance management, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, how these tools are federated, how it was implemented by EGI FedCloud project and how it was configured at CESGA. 
 Section~\ref{sect-handlers} explains how VMcatcher event handlers work, and how allow different plugins for cloud frameworks like OpenNebula or OpenStack to synchronise VM images between heterogeneous cloud technologies. 
@@ -94,7 +94,7 @@ There are still other comparable solutions, Lagar-Cavilla et al.~\cite{Lagar-Cav
 
 \section{VMcaster/VMcatcher image management interface}
 \label{sect-vmcaster}
-VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} are two different tools to generate and subscribe to virtual machine image lists.
+VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} are two different tools to generate and subscribe to virtual machine image lists~\cite{hepix}.
 These tools use an internal database (similar to a podcast syndication or a Linux package manager) where images information and lists are stored into an internal SQLite database.
 SQLite has proved more than adequate for the low transaction rate of a image list subscriber and so deployment issues are just backing up a database file.
 In many senses VMcaster/VMcatcher tools are similar to Debian's \textit{aptitude} or RedHat's \textit{yum} utilities. 
@@ -327,7 +327,7 @@ The new package (\textit{glancepush-vmcatcher}) is available from IN2P3 ftp serv
 \section{Conclusions and Future work}
 \label{sect-conclusions}
 The management of virtual machine images is a critical task within a federated cloud architecture. It involves certain safety standards and special scalability and availability and stability patterns.
-Taking these requirements into account Fedcloud taks force have chosen VMcaster and VMcatcher utilities to distribute and validate VM images between the resource providers.
+Taking these requirements into account Fedcloud task force have chosen VMcaster and VMcatcher utilities to distribute and validate VM images between the resource providers.
 Fedcloud resource providers are using a heterogenous cloud frameworks ecosystem (OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). This kind of federated infrastructure requires agnostic tools.
 Fortunately as we have explained in this paper, VMcatcher can be used by any cloud framework to distribute and update images in a transparent way. 
 The new image management tools are being used by EGI Fedcloud providers since last year successfully and probably it will be used in more use cases in the near future.
