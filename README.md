@@ -37,3 +37,9 @@ There are three primary targets defined.
 ## Customization ##
 
 The options for each program are defined using environment variables which are aptly named. By default the flags are constructed to favor graphical quality over file size (going far beyond the reasonable, some might say).
+
+## Install Debian ##
+
+The following command shodul being in all the dependacies.
+
+    apt-get install texlive-latex-extra texlive
