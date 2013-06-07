@@ -21,7 +21,7 @@ Place a copy of the makefile in the root directory of your project. Feel free to
 
 Next we must specify the name of the main .tex file. This will serve as the project name for the purposes of compilation. Let consider a hypothetical resume document which uses resume.tex as the primary .tex file. At the beginning of the makefile you would add the line
 
-    PROJECT = resume
+    PROJECT = image_management_v2
 
 informing the makefile to use resume.tex when compiling the document and will then generate obj/resume.dvi, obj/resume.ps, and obj/resume.pdf.
 
