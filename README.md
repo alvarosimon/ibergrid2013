@@ -40,6 +40,6 @@ The options for each program are defined using environment variables which are a
 
 ## Install Debian ##
 
-The following command shodul being in all the dependacies.
+The following command should being in all the dependencies.
 
     apt-get install texlive-latex-extra texlive
