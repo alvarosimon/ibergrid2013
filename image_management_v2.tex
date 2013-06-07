@@ -64,17 +64,19 @@ With the development of Federated cloud infrastructures, Maintainers of virtual 
 %
 With virtual appliances on Cloud IaaS resources the complications for integrating multiple components and dependencies of a service can be managed closer to the appliance creator or maintainer without need for the cloud resource provider to be involved. Cloud IaaS has shown great commercial success, so much so that new cloud software stacks are being developed, and many companies and research institutes are deploying these clouds for both public and private use. EGI-inspire brings together many sites, running multiple IaaS Cloud implementations as a Federated cloud. As part of this effort they are making efforts to help abstract away these differences so that Virtual Appliance users and maintainers can remain IaaS implementation and site neutral.
 
-However Cloud implementation neutrality increases the interoperability challenges. A federated cloud increases this difficulty still further, as different clouds with corresponding APIs, Appliance formats, and different contextualisation mechanism must be supported in a truly federated Cloud. 
+Interoperability of Appliance distribution is one of the first dependencies in the process, of creating a federated cloud. This paper is focused on some of the issues surrounding Virtual Appliance Image Management in a federated cloud environment following the HVWG's proposals.
 
-Interoperability of appliance distribution is one of the first dependencies in the process, of creating a federated cloud. This paper is focused on some of the issues surrounding Virtual Appliance Image Management in a federated cloud environment and how it was solved by EGI FedCloud taskforce in a Federated way, with a distributed image management system, and shared policies on apllance lifecycle and non repudiation of apllicance images, while leaving sites with control of which Appliance's they allow to run on their infractursutre.
-
-It is organised in the following sections. First, Section~\ref{sect-fedimagemanagement} presents the state of the art federated virtual appliance management, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, how these tools are federated, how it was implemented by EGI FedCloud project and how it was configured at CESGA. 
+It is organised in the following sections. First, Section~\ref{sect-fedimagemanagement} presents the Aplaince distibution in the context of federated IaaS clouds, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, how these tools are federated, how it was implemented by EGI FedCloud project and how it was configured at CESGA. 
 Section~\ref{sect-handlers} explains how VMcatcher event handlers work, and how allow different plugins for cloud frameworks like OpenNebula or OpenStack to synchronise VM images between heterogeneous cloud technologies. 
 Finally Section~\ref{sect-conclusions} will present the conclusions and future work.  
 
 %\subsection{User Services}
 
-
+\section{Motivation}
+\label{sect-motivation}
+The priamary goal of a EGI-federatred cloud task force is to invetigate the potential of IaaS Clouds as a revolutionary upgrade to Grid Computing's useability. IaaS Clouds have been been deployued at many sites where they are actively used by communties that never succeeded with Grid Computation~\cite[?]. The EGI-federatred cloud task force are a testbed evaluating policies and technology for production use.
+Secondary goals include providing a unification of the IaaS resources, from a users experiance and form resource sharing making for a quality of service to be extended beyond the capoabilities of a financially constrained resorce provider, Providing billing can be successfully implemented at least as well as Grid computing with apropriate poplicies. For the economic models and the details of billing are outside the scope of this paper with the exception that they are based upon signed messages for comunication.
+The liberation of scientific computation from IaaS implentation lock in may have many economic and sustainability benifits as side effects for all IaaS computing.
 %\begin{figure}[h!]
 %\centering
 %\includegraphics[width=60mm,angle=90]{./PSFIGs/user-services.eps}
@@ -94,15 +96,14 @@ There are still other comparable solutions, Lagar-Cavilla et al.~\cite{Lagar-Cav
 
 \section{VMcaster/VMcatcher image management interface}
 \label{sect-fedimagemanagement}
-The priamary goal of a EGI-federatred cloud task force is to invetigate the potential of IaaS Clouds as a revolutionary upgrade to Grid Computing's useability. IaaS Clouds have been been deployued at many sites where they are actively used by communties that never succeeded with Grid Computation~\cite[?]. The EGI-federatred cloud task force are a testbed evaluating policies and technology for production use. The liberation of scientific computation from IaaS implentation lock in may have many economic and sustainability benifits as side effects for all IaaS computing.
-
-Secondary goals include providing a unification of the IaaS resources, from a users experiance and form resource sharing making for a quality of service to be extended beyond the capoabilities of a financially constrained resorce provider, Providing billing can be successfully implemented at least as well as Grid computing with apropriate poplicies. for the economic models and the details of billing are outside the scope of this paper with the exception that they are based upon signed messages for comunication.
 
 This paper focuses appliance distribution, in a federated cloud. It is the combined result of the EGI-federatred cloud task force collabourating with a maintainer of the only implementation of a HVWG image list subscriber, and a former memeber of the Hepix Virtualisation Working Groups, it focuses on the use of Appliance mangement through signd "image list" messages.
 
 This is very similar to the goals of Grid computing but making use of IaaS platforms. IaaS platforms have succeeded in the Market, while Grid computing succeeded only for big science with very homogenious workloads. It is the beleif of the author that this is related to IaaS Clouds, having far greater flexability for the Apliance Maintainer then the Grid Equivilent. The relatively new term DevOps is now common, in IT, and this person is often closly acociated with the role of Appliance management.
 
-Since the athentication and identiy provision requirements of a federated grid are similar to that of the EGI federated cloud task force use of the International Grid Trust Federation~\cite{igtf}. IGTF~\cite{igtf} security makes use of the x.509 certificate authentication model and the details of this trust federation and the use of signed messages within this system are beyond the scope of this paper. It should be noted that fortunatly bridges to alternative authentication technology exist, such as Kerberous, and 
+\section{Itentity management}
+\label{sect-fedimagemanagement}
+Since the athentication and identiy provision requirements of a a Federated IaaS Cloud are similar to a federated grid. The EGI federated cloud task force use of the International Grid Trust Federation~\cite{igtf}. IGTF~\cite{igtf} security makes use of the x.509 certificate authentication model and the details of this trust federation and the use of signed messages within this system are beyond the scope of this paper. It should be noted that fortunatly bridges to alternative authentication technology exist, such as Kerberous, and 
 
 
 
@@ -360,7 +361,9 @@ The new package (\textit{glancepush-vmcatcher}) is available from IN2P3 ftp serv
 \section{Conclusions and Future work}
 \label{sect-conclusions}
 The greatest potential for the EGI-federatred cloud task force is to simplify the management of IaaS systems over the native API's.
+However Cloud implementation neutrality increases the interoperability challenges. A federated cloud increases this difficulty still further, as different clouds with corresponding APIs, Appliance formats, and different contextualisation mechanism must be supported in a truly federated Cloud. 
 
+Interoperability of Appliance distribution is one of the first dependencies in the process, of creating a federated cloud. This paper is focused on some of the issues surrounding Virtual Appliance Image Management in a federated cloud environment and how it was solved by EGI FedCloud taskforce in a Federated way, with a distributed image management system, and shared policies on apllance lifecycle and non repudiation of apllicance images, while leaving sites with control of which Appliance's they allow to run on their infractursutre.
 
 We believe that the HVWG proposal to manage Apliance lifecycle, through signed messages is approprate, as appliance management is typically IO bound and so asynconous in nature. The refereance susbcriber vmcatcher, provides 
 
@@ -426,6 +429,7 @@ Programme. EGI-InSPIRE began in May 2010 and will run for 4 years. Full informat
 %\bibitem{dcache}
 %\newblock The dcache book. 
 %\newblock \url{http://www.dcache.org/manuals/Book/}, May 2013.
+
 
 %\bibitem{Django2013}
 %\newblock D. Armstrong et al.
