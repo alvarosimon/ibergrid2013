@@ -94,22 +94,20 @@ There are still other comparable solutions, Lagar-Cavilla et al.~\cite{Lagar-Cav
 
 \section{VMcaster/VMcatcher image management interface}
 \label{sect-vmcaster}
-VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} are two different tools to generate and subscribe to virtual machine image lists~\cite{hepix}.
-These tools use an internal database (similar to a podcast syndication or a Linux package manager) where images information and lists are stored into an internal SQLite database.
+VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} generate and subscribe to virtual machine image lists~\cite{hepix} respecitivly. In many senses VMcatcher is similar to Debian's \textit{aptitude} or the rpm update management \textit{yum} utilities or podcast subscribers, while VMcaster is a tool for making secure respotories in a similar way to \textit{create-repo}. This distributed model, requires appliance maintainers to provide a http server, and use a x509 certificate in making thier imagelists available and relies on no centralised server.
+
+These tools use an internal database where image information and lists are stored into an internal SQLite database.
 SQLite has proved more than adequate for the low transaction rate of a image list subscriber and so deployment issues are just backing up a database file.
-In many senses VMcaster/VMcatcher tools are similar to Debian's \textit{aptitude} or RedHat's \textit{yum} utilities. 
 
 These tools try to match the requirements set by the now completed HEPiX virtualisation working group~\cite{hepix}.
-The main task of this working group was to provide to sites a way to control and mange Virtual Machine (VM) Image's provided by experiments, and execute the VMs in a trusted environment (similar to the current computing environment provided under Grid computing).
-During the last year the EGI federated cloud task force has recommended VMcatcher as well for installation at all cloud resource providers in their collaboration and the status of the integration with OpenStack and OpenNebula.
+The main task of this working group was to provide to sites a way to control and mange Virtual Machine (VM) Image's provided by experiments, and execute the VMs in a trusted environment (similar to the current computing environment provided under Grid computing). During the last year the EGI federated cloud task force has recommended VMcatcher as well for installation at all cloud resource providers in their collaboration and the status of the integration with OpenStack and OpenNebula.
 
-In this case since the software is made with the Grid in mind and to avoid man in the middle security issues, VMcaster/VMcatcher tools are based on the X.509 certificate authentication model.
-All the image lists are signed by an authenticated endorser with his/her personal X.509 certificate. 
-This means all images are referenced by an Virtual Machine Image List which contains a secure hash (SHA512) signed using X.509 personal certificates (provided by the image list endorser). 
-These Virtual Machine Image Lists are published, and interested sites subscribe to the Lists in a catalogue at the site. 
+In this case since the software is made with the Grid in mind VMcaster/VMcatcher tools are based on the International Grid Trust Federation~\cite{igtf}, which makes use of x.509 certificate authentication model. All the image lists are signed by an authenticated endorser with a personal x.509 certificate. All images are securly referanced referenced in a Virtual Machine Image List using a secure hash (SHA512) signed using X.509 personal certificates (provided by the image list endorser). These Virtual Machine Image Lists are published, and interested sites subscribe to the Lists in a catalogue at the site. The Federations of trust built earlier in Grid computing allowing multiple identiy proviers 
 
-When it is received an instantiation request, the image validity is checked. If the Virtual Machine Image List is valid, the Image is contextualised and then instantiated (see figure \ref{fig:infrastructure}). 
+Imagelists are polled by the subscribers, thier signature checked, image downloaded and validity is checked using the secure hash. If the applicance image is valid the applicance is then able to be contextualised and then instantiated (see figure \ref{fig:infrastructure}). 
 Using this mechanism a virtual image can be checked for validity, all image lists are signed and it provide a version number and expiration date. If the image list does not satisfy these requirements the image is not instantiated and the request is rejected.
+
+
 Another important feature of VMcaster/VMcatcher is the support of cloud framework agnostic tools, these tools do not depend on the cloud solution used by the sites. Besides it can be integrated with different frameworks using different plugins to use the new images directly from for example, OpenNebula or OpenStack (see section \ref{sect-handlers} for more information).
 
 \begin{figure}[h]
