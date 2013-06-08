@@ -84,6 +84,16 @@ This is very similar to the goals of Grid computing but making use of IaaS platf
 %\includegraphics[width=60mm,angle=90]{./PSFIGs/user-services.eps}
 %\caption{Use case in IBERGRID}\label{figUSER}
 %\end{figure}
+
+\section{Federated Appliance Management}
+\label{sect-fedimagemanagement}
+
+This paper focuses on appliance distribution, in a federated cloud following the HVWG's recommendations. The aim of the HVWG was to suggest ways so sites have a way to control and mange Virtual Machine (VM) Image's provided by experiments, and execute the VMs in a trusted environment (similar to the current computing environment provided under Grid computing). These goals may no long be appropriate as Cloud Technology has developed allowing greater
+
+The HVWG propsal was esentially federated with a distributed system, with no single point of failure or single service in control, and with a policy that was agreed by the mebers of the HVWG.
+
+This paper examines our experiance of testing this proposed polidcy and the use of the available tools, and how they where extended to be used in the EGI-federatred cloud task force. The authors of this paper are members of the EGI-federatred cloud task force collaborating with a maintainer of a HVWG image list subscriber, and a former member of the Hepix Virtualisation Working Groups.
+
 \section{Related Work}
 \label{sect-relatedwork}
 The use of Cloud infrastructures in science has been documented, and it is a very promising field, but integrating Clouds with the Grid is a challenge, as related on Dillon et al.~\cite{Dillon2010}. Goasguen et al.~\cite{Goasguen2012} presents the results of an internal production cloud service in CERN and suggestions to expand it to another Grid sites. Zhao et al.~\cite{Zhao2012} presents a infrastructure of a dozen computing sites using OpenNebula as the management solution. It concludes that Clouds are very useful for science, but there are still many performance issues to be resolved. Hoffa et al.~\cite{Hoffa2008} reached similar conclusions regarding cloud vs local deployments.
@@ -97,20 +107,13 @@ There are still other comparable solutions, Lagar-Cavilla et al.~\cite{Lagar-Cav
 
 During the last year the EGI federated cloud task force has recommended VMcatcher as well for installation at all cloud resource providers in their collaboration and the status of the integration with OpenStack and OpenNebula.
 
-\section{Federated Appliance Management}
-\label{sect-fedimagemanagement}
-
-This paper focuses on appliance distribution, in a federated cloud following the HVWG's recommendations, it tries to detail where the available implementation of the subscriber falls short of the HVWG's recommendations. It is the combined result of the EGI-federatred cloud task force collaborating with a maintainer of a HVWG image list subscriber, and a former member of the Hepix Virtualisation Working Groups, it focuses on the use of Appliance management through singed "image list" messages, in a similar way to package management in Linux.
-
-The aim of the HVWG was to suggest ways so sites have a way to control and mange Virtual Machine (VM) Image's provided by experiments, and execute the VMs in a trusted environment (similar to the current computing environment provided under Grid computing). These goals may no long be appropriate as Cloud Technology has developed allowing greater isolation at the network level.
-\section{Itentity management}
-\label{sect-fedimagemanagement}
-The HVWG proposal are based upon SMIME and so is essentially neutral of the method of signing and is applicable to pgp or x.509 signatures. This is not true for the vmcatcher implementation, which can only support the model provided with x.509 security. Since the Grid community already use the International Grid Trust Federation~\cite{igtf} just supporting x.509 is acceptable for the current stage for the Federated cloud task force. It is recommended that future HVWG image list providers support pgp and x.509 signatures.
 
 \section{Appliance Lifecycle Management using Imagelists.}
 \label{sect-appliancelifecycle}
 
 The HVWG proposed a message system to decouple appliance maintainers from cloud implementations, this decoupling could be used to hide the heterogeneous nature of a federated cloud.
+
+The HVWG proposal are based upon SMIME and so is essentially neutral of the method of signing and is applicable to pgp or x.509 signatures. This is not true for the vmcatcher implementation, which can only support the model provided with x.509 security. Since the Grid community already use the International Grid Trust Federation~\cite{igtf} just supporting x.509 is acceptable for the current stage for the Federated cloud task force. It is recommended that future HVWG image list providers support pgp and x.509 signatures.
 
 Imagelists are polled by the subscribers, their signature checked, image downloaded and the validity as an appliance checked using the secure hash. If the appliance image is valid the appliance is then able to be contextualised and then instantiated (see figure \ref{fig:infrastructure}). 
 Using this mechanism a virtual image can be checked for validity, all image lists are signed and it provide a version number and expiration date. If the image list does not satisfy these requirements the image is not instantiated and the request is rejected.
@@ -133,14 +136,13 @@ VMcaster~\cite{vmcaster} is the 3rd iteration of increasingly automated image li
 
 \subsection{Subscribing to image lists}
 
-VMcatcher~\cite{vmcatcher} is currently the only HVWG image list subscriber, sadly the only available implementation only support JSON meta data and x509 signatures. Since this is the the meta data format matters little and the x.509 required security infrastructure is available these limitations did not not hindered this investigation.
+VMcatcher~\cite{vmcatcher} is currently the only HVWG image list subscriber, and only supports JSON meta data and x509 signatures. Since this is the the meta data format matters little and the x.509 required security infrastructure is available these limitations did not not hindered this investigation.
 
 The job of vmcatcher is to allow subscription of virtual machine images by their UUID so that a resource provider can provide contextualised appliance images from the most recent appliance Image. resource providers can configure their own image lists and also select images from an image list, these are then validated in complain ace with the Hepix security policies and cached locally. vmcatcher does not support any cloud explicitly so further work was needed in this area.
 
-VMcaster can be configured to launch applications on image update events for further applications to process, update or expire changes of Appliance images.  These events can be used by event listeners or event handlers to react to specific changes (when an image is set as invalid or a it is available a new image update). 
+VMcaster can be configured to launch applications on image status change events such as expiry or new images becoming available. These triggors can be used for applications to process, Appliance images in local cloud implementations.  These events can be used by event listeners or event handlers to react to specific changes (when an image is set as invalid or a it is available a new image update). 
 
-The federated Cloud task force has developed such integration handlers for managing Appliance Lifecycle management with a single signed message, not all users will not need to manage Appliance updates in their federations,
-
+The federated Cloud task force has developed such integration handlers for managing Appliance Lifecycle management with Open Stack and Open Nebuala.
 \section{Image management event handlers}
 \label{sect-handlers}
 \begin{figure}[h]
@@ -170,19 +172,18 @@ The new package (\textit{glancepush-vmcatcher}) is available from IN2P3 ftp serv
 %This is my text 
 
 
-\section{Experiance from testing the HVWG proposals}
+\section{Results from long term testing the HVWG proposals as a Federated Apliance mangement framework}
 \label{sect-experiances}
 
 The HVWG's polices where tested to allow this distributed model, requires appliance maintainers, to allow images to be executed at a set of sites rather than contact each individually. With these tools we tried to match the requirements set by the now completed HEPiX Virtualisation working group~\cite{hepix}.
 
-As demonstrated in the Federated Cloud Demo (we need a citation), vmcatcher and vmcaster worked successfully and are relatively east to deploy and configure. Investigation shows they operate without a single point of failure. Once CESGA implemented the necessary handler to integrate vmcatcher with Open Nebular and similar work was provided by IN2P3 for open stack images can be published for both platforms as contextualisation validated. Fully automated image updates between more than one site in both directions have been shown to work. Combined with the Hepix security policy, the appliance management system in testing has shown itself to be a basis of a full automated, federated image distribution system in practice and currently production grade.
+As demonstrated in the Federated Cloud Demo (we need a citation), HVWG proposals and the implementations vmcatcher and vmcaster worked successfully and are relatively east to deploy and configure. Investigation shows they operate without a single point of failure. Fully automated image updates between more than one site in both directions have been shown to work. on both pen Stack and Open Nebuala using the handelrs developed by the Federated Cloud force. Combined with the Hepix security policy, the appliance management system in testing has shown itself to be a basis of a full automated, federated image distribution system in practice and currently production grade.
 
-Testing and practice has shown that not all appliance producers regularly upgrade their images. If appliance maintainers do update it is unusual that they do so at the frequency expected by the Hepix Virtualisation working group. By providing greater isolation at the network level, NIKEF and Oxford University in particular, have long suggested that they are capable of running insecure images, without fear of appliances negatively effecting each other. CESGA is planing on developing policies and practices to also achieve this in the future. 
+Long term testing and practice has shown that not all appliance producers regularly upgrade their images. If appliance maintainers do update it is unusual that they do so at the frequency expected by the Hepix Virtualisation working groups policies. By providing greater isolation at the network level, NIKEF and Oxford University in particular, have long suggested that they are able to run insecure images, without fear of appliances negatively effecting each other. CESGA is planing on developing policies and practices to also achieve this in the future.
 
-In light of the flexibility allowed by greater network isolation, the monthly update recommendations from the Hepix Virtualisation Working group now seem overly optimistic. The flexibility in Cloud networking capabilities where not for seen in the Hepix proposals and consequently the ability to run potentially outdated Appliances in a secured networking environment, where not addressed by the HVWG.
+In light of the flexibility allowed by greater network isolation, in particular the monthly update recommendations from the Hepix Virtualisation Working group now seem overly optimistic. The flexibility in Cloud networking capabilities where not for seen in the Hepix proposals and consequently the ability to run potentially outdated Appliances in a secured networking environment, where not addressed by the HVWG.
 
 We found the clear definition of valid and invalid/expired images, and the distributed nature of Imagelists a natural fit to a federated cloud, even if the policies proposed by the HVWG seem overly restrictive for the Federated Cloud. It should be noted that the both the Imagelists and image meta data can be extended to support extra meta data and pass this meta data through the vmcaster and vmcatcher infrastructure. This could be used to reference a variety of Policies used to federate images between sites should such policies be developed.
-
 
 \section{Continued use beyond the prototype}
 \label{sect-continued}
