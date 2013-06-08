@@ -25,7 +25,7 @@
 \frontmatter          % for the preliminaries
 %
 \pagestyle{headings}  % switches on printing of running heads
-\addtocmark{Federated Appliance Distribution in a Federated Cloud} % additional mark in the TOC
+\addtocmark{Federated Appliance Distribution tested in a Federated Cloud} % additional mark in the TOC
 %
 \mainmatter              % start of the contributions
 %
@@ -55,7 +55,7 @@ Second Author (Institution of second author's affiliation)}
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-With the development of Federated cloud infrastructures, Maintainers of virtual appliances need a mechanism to distribute their work to sites, ideally without external dependencies that may delay critical updates to virtual appliances. This paper summarises the work developed within EGI FedCloud taskforce during the last year to deploy a sustainable Federated Appliance life cycle Management System. This allows Appliance Maintainers to manage the life cycle of Appliances on the Federated services they use without the need for centralised resources or services.
+With the development of Federated cloud infrastructures, Maintainers of virtual appliances need a mechanism to distribute their work to sites, ideally without external dependencies that may delay critical updates to virtual appliances. This paper summarises the work developed within EGI FedCloud taskforce during the last year to deploy a sustainable Federated Appliance life cycle Management System. This allows Appliance Maintainers to manage the life cycle of Appliances on the Federated services they use without the need to contact each resocerse provider or centralised resources or services.
 \end{abstract}
 
 %
@@ -185,7 +185,7 @@ The greatest potential for the EGI-federatred cloud task force is to simplify th
 
 The use of a simple signed lists of endorsed Appliances in the HVWG~\cite{hepix} proposals is equally applicable to all PKI infrastructures supported by SMIME. The implementation VMcatcher~\cite{vmcatcher} is not this flexible but the limitations have not hindered this investigation.
 
-We believe that the HVWG~\cite{hepix} proposal to manage Appliance Lifecycle, with signed messages listing Appliances that are valid is expressive enough for federating appliances. Appliance management is typically IO bound and so asynchronous in nature signed images list provide a simple and clear way of managing appliance images are checked by resource providers. We found the clear definition of valid and invalid/expired images, and the distributed nature of Appliance lists a natural fit to a federated cloud and worth testing.
+We believe that the HVWG~\cite{hepix} proposal to manage Appliance Lifecycle, with signed messages listing Appliances that are valid and expressive enough for federating appliances. Appliance management is typically IO bound and so asynchronous in nature signed images list provide a simple and clear way of managing appliance images are checked by resource providers. We found the clear definition of valid and invalid/expired images, and the distributed nature of Appliance lists a natural fit to a federated cloud and worth testing.
 
 Having tested the use of HVWG~\cite{hepix} proposed image distribution system, with the tools vmcatcher, vmcaster and having developed event handlers, the Federated Cloud Task force have proved this approach is a distributed system for image distribution, to Open Stack and Open Nebuala resource providers. The Fedcloud task force have validated VMcaster and VMcatcher utilities as production grade implementation of the HVWG's~\cite{hepix} recommendations, and will continue to be uses them to distribute and validate VM images.
 
