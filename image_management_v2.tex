@@ -106,7 +106,7 @@ The HVWG proposed a message system to decouple appliance maintainers from cloud 
 Imagelists are polled by the subscribers, their signature checked, image downloaded and the validity as an appliance checked using the secure hash. If the appliance image is valid the appliance is then able to be contextualised and then instantiated (see figure \ref{fig:infrastructure}). 
 Using this mechanism a virtual image can be checked for validity, all image lists are signed and it provide a version number and expiration date. If the image list does not satisfy these requirements the image is not instantiated and the request is rejected.
 
-In many senses image list the HVWG's subsciption is similar to Debian's \textit{aptitude} or the rpm update management \textit{yum} utilities or a podcast subscriber. Publishing is similar to \textit{create-repo} which publishes rpm packages rather than virtuak maschine Appliances. But 2 major differences exist in the HVWG's proposals, that each image is uniquely identified by a UUID, and that Appliance image no longer present in an image list indicates thier expiry of an appliance rather than an error as it would with package management.
+The HVWG's subscription is similar to Debian's \textit{aptitude} or the rpm update management \textit{yum} utilities or a podcast subscriber. Publishing is similar to \textit{create-repo} which publishes rpm packages rather than virtual machines Appliances. But 2 major differences exist in the HVWG's proposals, that each image is uniquely identified by a UUID, and that Appliance image no longer present in an image list indicates their expiry of an appliance rather than an error as it would with package management.
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{vmcaster_vmcatcher.png}
@@ -168,7 +168,7 @@ Long term testing and practice has shown that not all appliance producers regula
 
 In light of the flexibility allowed by greater network isolation, the monthly update recommendations from the Hepix Virtualisation Working group now seem overly optimistic. The flexibility in Cloud networking capabilities where not for seen in the Hepix proposals and consequently the ability to run potentially outdated Appliances in a secured networking environment, where not addressed by the HVWG.
 
-\section{Continued use beyond the prototype}
+\section{Continued use outside the Federated cloud taskforce}
 \label{sect-continued}
 
 A new use cases is the EGI SA2.3 verification image repository. The EGI SA2 test-bed is used to verify and test the new middle ware before reaching the production software repository (UMD).
@@ -176,10 +176,9 @@ One of the most important new features is the ability to distribute and publish 
 These new tools, like EGI MarketPlace\footnote{EGI MarketPlace: \url{http://marketplace.egi.eu}} and VMcatcher\footnote{VMcatcher: \url{https://github.com/hepix-virtualisation/vmcatcher}} can be also used within SA2 verification process to distribute and publish new UMD services after its verification. 
 This work is still on going and it will be available in the next months. Using this infrastructure the new EGI certified image it will be available to be used and tested by EGI site administrators after each successful verification.
 
-For the moment after each software verification the images are stored locally into CESGA OpenNebula datastore but thanks to image management tools like VMcaster the new images will be published in an automated way.
-This new paradigm will be useful to users that want to check the latest software changes without the need to install a new service from scratch.
-Fortunately as we have explained in this paper, VMcatcher can be used by any cloud framework to distribute and update images in a transparent way. 
-The new image management tools are being used by EGI Fedcloud providers since last year successfully and probably it will be used in more use cases in the near future.
+For the moment after each software verification the images are stored locally within CESGA's OpenNebula datastore but using VMcaster the new images will be published in an automated way.
+This new paradigm will be useful for users that want to check the latest software changes without the need to install a new service from scratch.
+Fortunately as we have explained in this paper, VMcatcher is not tightly coupled to any cloud framework to distribute and update images so images can be imported into the customers tools of choice. The new image management tools are being used by EGI Fedcloud providers since last year successfully and it is expected more use cases in the near future will be solved using this set of tools.
 
 \section{Conclusions and Future work}
 \label{sect-conclusions}
@@ -188,7 +187,7 @@ The HVWG propsal was esentially federated with a distributed system, with no sin
 
 The use of a simple signed lists of endorsed Appliances in the HVWG proposals is equally applicable to all PKI infrastructures supported by SMIME. The implementation called vmcatcher is not so flexible but the limitations have not hindered this investigation.
 
-We believe that the HVWG proposal to manage Appliance Lifecycle, with signed messages listing Appliances that are valid is expressive enough for federating appliances. Appliance management is typically IO bound and so asynchronous in nature signed images list provide a simple and clear way of managing appliance images are checked by resource providers. We found the clear definition of valid and invalid/expired images, and the distributed nature of Appliance lists a natural fit to a federated cloud.
+We believe that the HVWG proposal to manage Appliance Lifecycle, with signed messages listing Appliances that are valid is expressive enough for federating appliances. Appliance management is typically IO bound and so asynchronous in nature signed images list provide a simple and clear way of managing appliance images are checked by resource providers. We found the clear definition of valid and invalid/expired images, and the distributed nature of Appliance lists a natural fit to a federated cloud and worth testing.
 
 Having tested the use of Hepix proposed image distribution system, with the tools vmcatcher, vmcaster and having developed event handlers, the Federated Cloud Task force have proved this approach is a distributed system for image distribution, to Open Stack and Open Nebuala resource providers. The Fedcloud task force have validated VMcaster and VMcatcher utilities as production grade implementation of the HVWG's recommendations, and will continue to be uses them to distribute and validate VM images.
 
