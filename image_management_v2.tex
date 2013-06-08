@@ -149,16 +149,17 @@ The federated Cloud task force has developed such integration handlers for manag
 
 \section{Image management event handlers}
 \label{sect-handlers}
-OpenNebula event handler~\cite{onevent} was developed by the CESGA team and currently is available from the VMcaster repository. 
-The \textit{vmcatcher\_eventHndlExpl\_ON} package provides a new python and cron script which detects VMcatcher events. 
-This script detects several VMcatcher event types. In this case OpenNebula handler only waits for a new Expire or Available VMcatcher event.
-If VMcatcher raises a \textit{AvailablePostfix} event, this is detected by \textit{vmcatcher\_eventHndlExpl\_ON} event handler and reads the new image attributes such UUID, image name, description and image format.
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{ONeventhandler.png}
 \caption{OpenNebula event handler.}
 \label{fig:onevent}
 \end{figure}
+OpenNebula event handler~\cite{onevent} was developed by the CESGA team and currently is available from the VMcaster repository. 
+The \textit{vmcatcher\_eventHndlExpl\_ON} package provides a new python and cron script which detects VMcatcher events. 
+This script detects several VMcatcher event types. In this case OpenNebula handler only waits for a new Expire or Available VMcatcher event.
+If VMcatcher raises a \textit{AvailablePostfix} event, this is detected by \textit{vmcatcher\_eventHndlExpl\_ON} event handler and reads the new image attributes such UUID, image name, description and image format.
+
 If a new image is downloaded (\textit{AvailablePostfix} event), the OpenNebula event handler gets the image information, generates a new OpenNebula template and includes the new image into the local OpenNebula datastore (see figure \ref{fig:onevent}). 
 For security reasons, the new images are not public, they are only available for the oneadmin user. The OpenNebula administrator should verify the new image first (checking its contextualisation script, if the image is executed correctly etc).
 After this period of time the image status is changed to be available for external users. 
