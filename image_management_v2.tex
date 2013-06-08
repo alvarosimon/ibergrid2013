@@ -68,11 +68,7 @@ The liberation of scientific computation from IaaS implentation lock in may have
 
 Interoperability of Appliance distribution is one of the first dependencies in the process, of creating a federated cloud. This paper is focused on some of the issues surrounding Virtual Appliance Image Management in a federated cloud environment following the HVWG's proposals.
 
-
-It is organised in the following sections. First, Section~\ref{sect-fedimagemanagement} presents the Aplaince distibution in the context of federated IaaS clouds, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, how these tools are federated, how it was implemented by EGI FedCloud project and how it was configured at CESGA. 
-
-Section~\ref{sect-handlers} explains how VMcatcher event handlers work, and how allow different plugins for cloud frameworks like OpenNebula or OpenStack to synchronise VM images between heterogeneous cloud technologies. 
-Finally Section~\ref{sect-conclusions} will present the conclusions and future work.  
+A federated cloud using a heterogenous cloud frameworks ecosystem (OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). may be presented with corresponding APIs, Appliance formats, and different contextualisation mechanism for each cloud iplementation. The tools used did not support any specififc cloud infrstructures at the start of this process, so adaptors had to be devloped for each IaaS System supported.
 
 %\subsection{User Services}
 
@@ -140,8 +136,6 @@ VMcaster~\cite{vmcaster} is the 3rd attempt at automativng image list publicatio
 VMcatcher~\cite{vmcatcher} ius currently the only HVWG image list subscriber, sadly the only available implementation only support JSON metadata and x509 signatures. Since this is the the meta data format matters little and the x.509 required secuurity infrastrcuture is available these limitations did not not hindered this investigation.
 
 The job of vmcatcher is to allow subscription of virtual maschien images by thier UUID so that a resorce provider can provide cintecxtulised apliance images from the most uptodate appliance Image. resource providers can configure their own imagelists and also select images from an image list, these are then validated in complainace with the Hepix security policies and cached locally. vmcatcher does not support any cloud exploistly so furterh work was needed in this area.
-
-A federated cloud using a heterogenous cloud frameworks ecosystem (OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). may be presented with corresponding APIs, Appliance formats, and different contextualisation mechanism for each cloud iplementation.
 
 VMcaster can be configured to launch appliacations on image update events for further applications to process, update or expire changes of Apliance images.  These events can be used by event listeners or event handlers to react to specific changes (when an image is set as invalid or a it is available a new image update). 
 
