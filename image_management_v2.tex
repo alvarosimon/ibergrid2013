@@ -113,7 +113,7 @@ During the last year the EGI federated cloud task force has recommended VMcatche
 
 The HVWG proposed a message system to decouple appliance maintainers from cloud implementations, this decoupling could be used to hide the heterogeneous nature of a federated cloud.
 
-The HVWG proposal are based upon SMIME and so is essentially neutral of the method of signing and is applicable to pgp or x.509 signatures. This is not true for the vmcatcher implementation, which can only support the model provided with x.509 security. Since the Grid community already use the International Grid Trust Federation~\cite{igtf} just supporting x.509 is acceptable for the current stage for the Federated cloud task force. It is recommended that future HVWG image list providers support pgp and x.509 signatures.
+The HVWG proposal are based upon SMIME and so is essentially neutral of the method of signing and is applicable to pgp or x.509 signatures.
 
 Imagelists are polled by the subscribers, their signature checked, image downloaded and the validity as an appliance checked using the secure hash. If the appliance image is valid the appliance is then able to be contextualised and then instantiated (see figure \ref{fig:infrastructure}). 
 Using this mechanism a virtual image can be checked for validity, all image lists are signed and it provide a version number and expiration date. If the image list does not satisfy these requirements the image is not instantiated and the request is rejected.
@@ -136,7 +136,7 @@ VMcaster~\cite{vmcaster} is the 3rd iteration of increasingly automated image li
 
 \subsection{Subscribing to image lists}
 
-VMcatcher~\cite{vmcatcher} is currently the only HVWG image list subscriber, and only supports JSON meta data and x509 signatures. Since this is the the meta data format matters little and the x.509 required security infrastructure is available these limitations did not not hindered this investigation.
+VMcatcher~\cite{vmcatcher} is currently the only HVWG image list subscriber, and only supports JSON meta data and x509 signatures. Since this is the the meta data format matters little and the x.509 required security infrastructure is available these limitations did not not hindered this investigation. Since the Grid community already use the International Grid Trust Federation~\cite{igtf} just supporting x.509 is acceptable for the current stage for the Federated cloud task force. It is recommended that future HVWG image list providers support pgp and x.509 signatures.
 
 The job of vmcatcher is to allow subscription of virtual machine images by their UUID so that a resource provider can provide contextualised appliance images from the most recent appliance Image. resource providers can configure their own image lists and also select images from an image list, these are then validated in complain ace with the Hepix security policies and cached locally. vmcatcher does not support any cloud explicitly so further work was needed in this area.
 
