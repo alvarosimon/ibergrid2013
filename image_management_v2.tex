@@ -55,7 +55,7 @@ Second Author (Institution of second author's affiliation)}
 \maketitle              % typeset the title of the contribution
 
 \begin{abstract}
-The new federated cloud infrastructures require the development of specific utilities and technical solutions. One of the most crucial features is the virtual image management and distribution system.
+The new federated Cloud infrastructures require the development of specific utilities and technical solutions. One of the most crucial features is the virtual image management and distribution system.
 This paper summarizes the work developed within EGI FedCloud taskforce during the last year to deploy a sustainable and scalable federated VM image management.
 \end{abstract}
 
@@ -69,7 +69,7 @@ However this technology agnosticism increases the interoperability challenges. O
 A federated cloud increases the difficulty, it uses different cloud APIs, different cloud vendors which require different image formats, different contextualisation mechanism and so on. 
 This paper is focused on some of the issues surrounding image management in a federated cloud environment and how it was solved by EGI FedCloud taskforce.
 It is organised in the following sections. First, Section~\ref{sect-relatedwork} presents the state of the art regarding cloud frameworks VM management, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, how it was implemented by EGI FedCloud project and how it was configured at CESGA. 
-Section~\ref{sect-handlers} explains how VMcatcher event handlers work, and how allow different plugins for cloud frameworks like OpenNebula or OpenStack to synchronize VM images between heterogeneous cloud technologies. 
+Section~\ref{sect-handlers} explains how VMcatcher event handlers work, and VMcatcher plugins to support different cloud frameworks like OpenNebula or OpenStack.
 Finally Section~\ref{sect-conclusions} will present the conclusions and future work.  
 
 %\subsection{User Services}
@@ -100,16 +100,16 @@ SQLite has proved more than adequate for the low transaction rate of a image lis
 In many senses VMcaster/VMcatcher tools are similar to Debian's \textit{aptitude} or RedHat's \textit{yum} utilities. 
 
 These tools try to match the requirements set by the now completed HEPiX virtualisation working group~\cite{hepix}.
-The main task of this working group was to provide to sites a way to control and mange Virtual Machine (VM) Image's provided by experiments, and execute the VMs in a trusted environment (similar to the current computing environment provided under Grid computing).
-During the last year the EGI federated cloud task force has recommended VMcatcher as well for installation at all cloud resource providers in their collaboration and the status of the integration with OpenStack and OpenNebula.
+The main task of this working group was to provide to sites a way to control and manage Virtual Machine (VM) Image's provided by experiments, and execute the VMs in a trusted environment (similar to the current computing environment provided under Grid computing).
+Besides during the last year the EGI federated cloud task force has recommended VMcatcher installation to its cloud resource providers.
 
 In this case since the software is made with the Grid in mind and to avoid man in the middle security issues, VMcaster/VMcatcher tools are based on the X.509 certificate authentication model.
 All the image lists are signed by an authenticated endorser with his/her personal X.509 certificate. 
 This means all images are referenced by an Virtual Machine Image List which contains a secure hash (SHA512) signed using X.509 personal certificates (provided by the image list endorser). 
 These Virtual Machine Image Lists are published, and interested sites subscribe to the Lists in a catalogue at the site. 
 
-When it is received an instantiation request, the image validity is checked. If the Virtual Machine Image List is valid, the Image is contextualised and then instantiated (see figure \ref{fig:infrastructure}). 
-Using this mechanism a virtual image can be checked for validity, all image lists are signed and it provide a version number and expiration date. If the image list does not satisfy these requirements the image is not instantiated and the request is rejected.
+When a resource provider receives an user instantiation request, the image validity is checked. If the Virtual Machine Image List is valid, the Image is contextualised and then instantiated (see figure \ref{fig:infrastructure}). 
+Using this mechanism a virtual image can be checked for validity, all image lists are signed and they provide a version number and expiration date. If the image list does not satisfy these requirements the image is not instantiated and the request is rejected.
 Another important feature of VMcaster/VMcatcher is the support of cloud framework agnostic tools, these tools do not depend on the cloud solution used by the sites. Besides it can be integrated with different frameworks using different plugins to use the new images directly from for example, OpenNebula or OpenStack (see section \ref{sect-handlers} for more information).
 
 \begin{figure}[h]
@@ -123,7 +123,7 @@ Another important feature of VMcaster/VMcatcher is the support of cloud framewor
 VMcaster is a simple tool for publishing, managing and updating virtual machines image lists which follows the HEPix image list specifications.
 All the image lists and metadata created by VMcaster are signed and trusted with a X.509 certificate.
 This provides a mechanism by which a virtual image can be checked for validity by any subscriber. Any user can check the image list expiration date, if it was revocated or it has been tampered by a third party.
-All images and image lists have an UUID. These UUID's should be globally unique and consequently the UUID should be generated using a UUID generator using suitable seeds. As example for Debian, Redhat and Scientific Linux users can execute the following UUID generator:
+All images and image lists have an Universal(ly) Unique Identifier (UUID). These UUID's should be globally unique and consequently the UUID should be generated using a UUID generator using suitable seeds. As example for Debian, Redhat and Scientific Linux users can execute the following UUID generator:
 \begin{verbatim}
 $ uuidgen
 
@@ -147,7 +147,7 @@ $ vmcaster --select-imagelist dfc470ab-0845-4c3b-bc6a-02f990388a17 \
 \end{verbatim}
 The object \textit{dc:identifier} contains always an UUID and it is included in images or image lists. 
 At this moment the image list does not include any relevant information but thanks to VMcaster utility the image list endorser can introduce new objects and information.
-The most important objects are: the image title, its description, its endpoint (a valid \textit{url}) and also the endorser unique certificate DN. 
+The most important objects are: the image title, its description, its endpoint (a valid \textit{url}) and also the endorser unique certificate DN. Only a trusted endorser can modify or update an VMcaster image list to include or remove VM images. 
 These values can be included into the internal database running these commands, as example:
 \begin{verbatim}
 $ vmcaster --select-imagelist <image_list_UUID> \
@@ -246,7 +246,7 @@ At the end the information can be gathered from the local database, as example u
     }
 }
 \end{verbatim}
-Reading the image list example in JSON format a future subscriber can indentify the available images and also the image list creation/expiration dates or the endorser DN.
+By reading the image list example in JSON format a future subscriber can indentify the available images and also the image list creation/expiration dates or the endorser DN.
 
 When the image list is ready and updated the endorser can publish it to all sites included into \textit{vmcaster.cfg} file. 
 The procedure is quite similar to image uploading, but the image must be signed by the endorser certificate to validate its authenticity.
@@ -257,19 +257,20 @@ $ vmcaster --select-imagelist <IMAGE_LIST_UUID> --upload-imagelist
 This procedure allows different image endorsers to distribute and update image catalogs among different endpoints and sites (which is suitable for a federated architecture).
 Besides all image lists has endorsed information about endorser certificate public key, image download endpoint, initial global validity, etc. 
 That means valid images can be selected, downloaded and instantiated and tested by different resource provides. 
-This task is done by VMcatcher utility described in the next section.
+The new images should be verified by the image list endorser but fedcloud resource provides have the final decission about its inclusion into their cloud image repositories. 
+Image subscription task is done by VMcatcher utility described in the next section.
 
 
 \subsection{VMcatcher}
 VMcatcher utility allows image consumers to subscribe to VM Image Lists generated by VMcaster. 
 Using this utility users can select and download trusted images.
-This utility cache the images selected in a image list, validates the list with X.509 based public key cryptography, and also checks  the images SHA512 hashes. 
-Another important feature of VMcaster is that provides events for further applications to process, update or expire changes of virtual machine images. 
-These events can be used by event listeners or event handlers to react to specific changes (when a image is set as invalid or a it is available a new image update). 
+This utility caches the images selected in a image list, validates the list with X.509 based public key cryptography, and also checks  the images SHA512 hashes. 
+Another important feature of VMcaster is that it provides events for further applications to process, update or expire changes of virtual machine images. 
+These events can be used by event listeners or event handlers to react to specific changes (when a image is set as invalid or a new image update is available). 
 
-VMcatcher and VMcaster works in a similar way. The software is based upon a local database that stores subscriptions to VM image lists, registered endorsers, and which images belong to which subscriptions. 
+VMcatcher and VMcaster work in a similar way. The software is based upon a local database that stores subscriptions to VM image lists, registered endorsers, and which images belong to which subscriptions. 
 It allows to select images to be selected for subscription. An user can select the desired image lists and then set the desired images subscription.
-Subscribed images can be downloaded, verified and cached. VMcatcher also verifies if the cached images have expired or not, and if images are valid or has expired, in which case it is moved to an expiry directory.
+Subscribed images can be downloaded, verified and cached. VMcatcher also verifies if the cached images have expired or not. If an image is invalid or it has expired it is moved to an expiry directory.
 The image consumer must trust in a endorser, in this case users can include and trust in a image endorser including his/her X.509 certificate Distinguished Name (DN).
 To include a new trusted endorser:
 \begin{verbatim}
@@ -312,7 +313,7 @@ If VMcatcher raises a \textit{AvailablePostfix} event, this is detected by \text
 If a new image is downloaded (\textit{AvailablePostfix} event), the OpenNebula event handler gets the image information, generates a new OpenNebula template and includes the new image into the local OpenNebula datastore (see figure \ref{fig:onevent}). 
 For security reasons, the new images are not public, they are only available for the oneadmin user. The OpenNebula administrator should verify the new image first (checking its contextualisation script, if the image is executed correctly etc).
 After this period of time the image status is changed to be available for external users. 
-Moreover if VMcatcher detects an image revocation the OpenNebula event handler search the image UUID from OpenNebula image database and it is set to disable status.
+Moreover if VMcatcher detects an image revocation the OpenNebula event handler searches the image UUID from OpenNebula image database and it is set to disable status.
 The image is not removed by the event handler, it should be removed by the site administrator from the OpenNebula datastore.
 
 The OpenNebula event handler is not the only one. OpenStack administrators can also use Glancepush~\cite{glancepush} service to keep their local image catalog updated. 
