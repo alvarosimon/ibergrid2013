@@ -1,0 +1,131 @@
+\ProvidesFile{size10.clo}
+              [1999/01/07 v1.4a
+      Standard LaTeX file (size option)]
+
+\special{papersize=6.9in,9.8in}
+\setlength{\pdfpageheight}{\paperheight}
+\setlength{\pdfpagewidth}{\paperwidth}
+
+\def\quarter@line{3.6pt}
+\def\half@line{7.2pt}
+\def\full@line{14.4pt}
+
+\renewcommand\normalsize{\@setsize\normalsize{\full@line}\xiipt\@xiipt
+ \abovedisplayskip 12pt plus 2pt minus 2pt
+ \abovedisplayshortskip 0pt plus 1pt
+  \belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
+ \belowdisplayskip  \abovedisplayskip
+ \let\@listi\@listI}
+\newcommand\small{%
+   \@setfontsize\small\@xipt{13.6}%
+   \abovedisplayskip 11\p@ \@plus3\p@ \@minus6\p@
+   \abovedisplayshortskip \z@ \@plus3\p@
+   \belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
+   \def\@listi{\leftmargin\leftmargini
+               \topsep 9\p@ \@plus3\p@ \@minus5\p@
+               \parsep 4.5\p@ \@plus2\p@ \@minus\p@
+               \itemsep \parsep
+               \setlength{\itemsep}{0pt}}%
+   \belowdisplayskip \abovedisplayskip
+}
+
+\def\footnotesize{\@setsize\footnotesize{10pt}\ixpt\@ixpt
+ \abovedisplayskip 6pt plus 1pt minus 1pt
+ \belowdisplayskip \abovedisplayskip
+ \abovedisplayshortskip \z@ plus 1pt
+ \belowdisplayshortskip  \abovedisplayskip
+ \def\@listi{\leftmargin\leftmargini
+  \topsep 9pt plus 1pt minus 1pt
+  \parsep \z@
+  \itemsep \parsep
+  \setlength{\itemsep}{0pt}}}
+\newcommand\scriptsize{\@setfontsize\scriptsize\@viiipt{9.5}}
+\newcommand\tiny{\@setfontsize\tiny\@vipt\@viipt}
+\newcommand\large{\@setfontsize\large\@xivpt{18}}
+\newcommand\Large{\@setfontsize\Large\@xviipt{22}}
+\newcommand\LARGE{\@setfontsize\LARGE\@xxpt{25}}
+\let\huge\LARGE
+\newcommand\Huge{\@setfontsize\Huge\@xxvpt{30}}
+
+\normalsize
+
+
+\setlength\parindent{0.7cm}
+\setlength\smallskipamount{3\p@ \@plus 1\p@ \@minus 1\p@}
+\setlength\medskipamount{6\p@ \@plus 2\p@ \@minus 2\p@}
+\setlength\bigskipamount{12\p@ \@plus 4\p@ \@minus 4\p@}
+\setlength\headheight{21pt}
+\setlength\headsep   {7pt}
+\setlength\topskip   {14pt}
+\setlength\footskip{21\p@}
+\setlength\maxdepth{.5\topskip}
+\textwidth 15cm
+\setlength\textheight{43\baselineskip \advance\textheight by \topskip}
+\setlength\marginparsep {10\p@}
+\setlength\marginparpush{6\p@}
+\setlength\oddsidemargin   {0\p@}
+\setlength\evensidemargin  {0\p@}
+\setlength\marginparwidth {2.4cm}
+\setlength\@tempdima        {\paperwidth}
+\addtolength\@tempdima      {-\textwidth}
+\ifdim \marginparwidth >2in
+\setlength\marginparwidth{2in}\fi
+\setlength\footnotesep{8.4\p@}
+\setlength{\skip\footins}{10.8\p@ \@plus 4\p@ \@minus 2\p@}
+\setlength\floatsep    {12pt plus \quarter@line minus 3pt}
+\setlength\textfloatsep{20pt plus \quarter@line minus 3pt}
+\setlength\intextsep   {14pt plus \quarter@line minus 3pt}
+\setlength\dblfloatsep    {14\p@ \@plus 2\p@ \@minus 2\p@}
+\setlength\dbltextfloatsep{20\p@ \@plus 2\p@ \@minus 4\p@}
+\setlength\@fptop{0\p@ \@plus 1fil}%0
+\setlength\@fpsep{10\p@ \@plus 2fil}
+\setlength\@fpbot{0\p@ \@plus 1fil}%2
+\setlength\@dblfptop{0\p@ \@plus 1fil}
+\setlength\@dblfpsep{8\p@ \@plus 2fil}
+\setlength\@dblfpbot{0\p@ \@plus 1fil}
+\setlength\partopsep{1pt plus 1pt minus 1pt}
+
+\def\makeRLlabel#1{\rlap{#1}\hss}
+\def\makeRRlabel#1{\hss\llap{#1}}
+
+\def\@listi{\leftmargin\leftmargini
+            \parsep 4\p@ \@plus2\p@ \@minus\p@
+            \topsep 9\p@ \@plus2\p@ \@minus3\p@
+            \itemsep5\p@ \@plus2\p@ \@minus\p@
+            \setlength{\itemsep}{0pt}
+            \let\makelabel\makeRRlabel
+            }
+\let\@listI\@listi
+\@listi
+\def\@listii {\leftmargin\leftmarginii
+              \labelwidth\leftmarginii
+              \advance\labelwidth-\labelsep
+              \topsep    6\p@ \@plus2\p@ \@minus\p@
+              \parsep    1\p@ \@plus\p@
+              \itemsep   \parsep
+              \setlength{\itemsep}{0pt}
+              \let\makelabel\makeRRlabel}
+\def\@listiii{\leftmargin\leftmarginiii
+              \labelwidth\leftmarginiii
+              \advance\labelwidth-\labelsep
+              \topsep    4\p@ \@plus\p@\@minus\p@
+              \parsep    \z@
+              \partopsep \p@ %\@plus\z@ \@minus\p@
+              \itemsep   \topsep
+              \setlength{\itemsep}{0pt}
+              \let\makelabel\makeRRlabel}
+\def\@listiv {\leftmargin\leftmarginiv
+              \labelwidth\leftmarginiv
+              \advance\labelwidth-\labelsep
+              \let\makelabel\makeRRlabel}
+\def\@listv  {\leftmargin\leftmarginv
+              \labelwidth\leftmarginv
+              \advance\labelwidth-\labelsep
+              \let\makelabel\makeRRlabel}
+\def\@listvi {\leftmargin\leftmarginvi
+              \labelwidth\leftmarginvi
+              \advance\labelwidth-\labelsep
+              \let\makelabel\makeRRlabel}
+\endinput
+%%
+%% End of file `size10.clo'.
