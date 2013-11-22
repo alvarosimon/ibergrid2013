@@ -410,12 +410,11 @@ The Fedcloud task force have validated VMcaster and VMcatcher utilities as produ
 
 EGI Fedcloud task force is committed to support these new image managements tools in the future and the developmnet work is still on going within the project. 
 GRNET partner is developing a new Virtual Appliance Marketplace based on EGI Applications Database (EGI AppDB), a project service which stores and provides to the public information about Grid software solutions for scientists and programmers.
-This service was extended to create a Virtual Appliance Marketplace tp bring a new category of software entries or virtual appliances, which are virtual machine images designed to run on a virtualization platform.
+This service was extended to create a Virtual Appliance Marketplace to bring a new category of software entries or virtual appliances, which are virtual machine images designed to run on a virtualization platform.
 AppDB's Virtual Appliance Marketplace was integrated with the existing HVWG VMCaster/VMCatcher framework.
 EGI Marketpalce uses VMcatcher to download and update the new images included into EGI Image list and provides this list to Fedcloud users.  
 The basic image management features were embedded in the Marketplace, such as creating, publishing, enabling/disabling, and archiving or deleting Virtual Appliances or VM image versions.
 Besides a friendly site can include its own image list to be published by the Marketplace (see figure \ref{fig:egimodel}). 
-This image management model is still under development and testing but it will available in production to be used by EGI users in the next months.
 
 \begin{figure}
 \centering
@@ -423,7 +422,11 @@ This image management model is still under development and testing but it will a
 \caption{EGI Fedcloud Image Management model}
 \label{fig:egimodel}
 \end{figure}
+With the new service any authorised user (using he/she X.509 certificate) will be able to submit or upload VA version metadata (in the form of signed image lists). 
+Project RPs can be subscribed to specific Virtual Appliances or to the Marketplace image list. Using this mechanism a trusted Fedcloud user group, Virtual Organization or experiment will disseminate its Virtual Appliances or Images among project RPs in a short period of time.
+Fedcloud Resource Providers site admin only have to subscribe to the new images using VMcatcher, the images will be available automatically thanks to the image management event handlers.
 
+This image management model is still under development and testing but it will available in production to be used by EGI users in the next months.
 
 \section{Acknowledgements}
 \label{sect-acknowledgements}
