@@ -11,7 +11,7 @@
 #    display : displays the compiled document in a common PDF viewer.
 #              (Linux = Evince, OSX = OS Set Default)
 #    clean   : removes the obj/ directory holding temporary files
-PROJECT = image_management_v2
+PROJECT = image_management_cai_v3
 
 default: obj/$(PROJECT).pdf
 
