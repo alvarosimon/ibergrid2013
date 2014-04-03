@@ -46,10 +46,10 @@ Av. Vigo S/N\\
 \author[O. Synge et al.]
        {Owen \surname{Synge}}
 
-\affiliation{Zurich University of Applied Sciences\\
-ZHAW\\
-Gertrudstrasse 15 Winterthur\\
-8401 Zurich, Switzerland}
+\affiliation{SUSE LINUX Products GmbH\\
+SUSE\\
+Maxfeldstr 5\\
+90409 Nürnberg, Germany}
 
 \email{owen.synge@jaysnest.de}
 
@@ -64,7 +64,7 @@ This paper summarizes the work carried out within the EGI FedCloud taskforce dur
 \end{abstract}
 
 \begin{keywords}
-Cloud computing, federated cloud, image management, virtual machines
+Cloud computing, federated Cloud, image management, virtual machines
 \end{keywords}
 
 \begin{mathclass}
@@ -74,51 +74,56 @@ Cloud computing, federated cloud, image management, virtual machines
 
 \section{Introduction}
 \label{sect-introduction}
-The number of projects based on Cloud IaaS resources are increasing each day. Projects like EGI-Inspire are making efforts to help abstract away the differences between different Cloud API's and allow resource consumers to be independent of Cloud infrastructure.
-This Cloud agnostic frameworks will become the new Rosetta stone for Cloud developers and site administrators. These projects are using different API's, Cloud frameworks, storage systems etc. 
+The number of projects based on Cloud IaaS resources are increasing each day. The European projects are making efforts to help abstract away the differences between different Cloud APIs and allow resource consumers to be independent of Cloud infrastructure.
+These Cloud agnostic frameworks will become the new Rosetta stone for Cloud developers and site administrators. 
+
+One of these projects which is intragrating its Cloud services is EGI-InSPIRE~\cite{egi} (Integrated Sustainable Pan-European Infrastructure for Researchers in Europe). EGI-InSPIRE is a federation of national resource infrastructure providers which includes grid and now Cloud resources. 
+Federating these Cloud resources is a major priority for EGI that has started within the EGI Federated Cloud Taskforce~\cite{fedCloud}.
+
+Project like EGI are using different APIs, Cloud frameworks, storage systems etc. 
 However this technology agnosticism increases the interoperability challenges. One of the most pressing forces is the managing of VM images within a federated Cloud infrastructure.
 A federated Cloud increases the difficulty of this management, since it uses different Cloud APIs, image formats, contextualisation mechanisms and so on. 
 
-With virtual appliances like VM images on Cloud IaaS resources the complications due to the integration of multiple components and dependencies of a service can be managed closer to the appliance creator or maintainer without need for the cloud resource provider to be involved. 
-Cloud IaaS has shown great commercial success, new Cloud software stacks are being developed, and many companies and research institutes are deploying these clouds for both public and private use. 
-The EGI-Inspire project is an excellent testbed which brings together many sites, running multiple IaaS Cloud implementations within a production Federated cloud infrastructure. As part of this effort they are taking steps to help abstract away these differences so that Virtual Appliance users and maintainers can remain IaaS implementation and site neutral.
+With virtual appliances like VM images on Cloud IaaS resources the complications due to the integration of multiple components and dependencies of a service can be managed closer to the appliance creator or maintainer without need for the Cloud resource provider to be involved. 
+Cloud IaaS has shown great commercial success, new Cloud software stacks are being developed, and many companies and research institutes are deploying these Clouds for both public and private use. 
+The EGI-Inspire project is an excellent testbed which brings together many sites, running multiple IaaS Cloud implementations within a production Federated Cloud infrastructure.
 
-The interoperability of Appliance distribution is one of the first dependencies in the process of creating a federated cloud. This paper is focused on some of the issues surrounding Virtual Appliance Image Management in a federated cloud environment following the HEPiX Virtualisation Working Groups (HVWG)~\cite{hepix} proposals.
+The interoperability of Appliance distribution is one of the first dependencies in the process of creating a federated Cloud. This paper is focused on some of the issues surrounding Virtual Appliance Image Management in a federated Cloud environment following the HEPiX Virtualisation Working Groups (HVWG)~\cite{hepix} proposals.
 
-A federated cloud using a heterogeneous cloud frameworks ecosystem (mixing OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). may be presented with corresponding APIs, Appliance formats, and different contextualisation mechanism for each cloud implementation. 
-The tools used to evaluate the HVWG's~\cite{hepix} proposals did not support any specific cloud infrastructures at the start of this process, so adapters had to be developed for each IaaS System supported. 
+A federated Cloud using a heterogeneous Cloud frameworks ecosystem (mixing OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). may be presented with corresponding APIs, Appliance formats, and different contextualisation mechanism for each Cloud implementation. 
+The tools used to evaluate the HVWG's~\cite{hepix} proposals did not support any specific Cloud infrastructures at the start of this process, so adapters had to be developed for each IaaS System supported. 
 
-The primary goal of an EGI-federated cloud task force is to investigate the potential of IaaS Clouds as a revolutionary upgrade to Grid Computing's use ability. 
-IaaS Clouds have been been deployed at many sites where they are actively used by communities that werent suited to Grid Computation~\cite{gridcloud}. 
+The primary goal of an EGI-federated Cloud task force is to investigate the potential of IaaS Clouds as a revolutionary upgrade to Grid Computing's use ability. 
+IaaS Clouds have been been deployed at many sites where they are actively used by communities that were not suited to Grid Computation~\cite{gridCloud}. 
 
-Secondary goals include providing a unification of IaaS resources from a users experience and from resource sharing, with quality of service to be extended beyond the capabilities of a financially constrained resource provider.
+Secondary goals include providing a unification of IaaS resources from a user experience and from resource sharing, with quality of service to be extended beyond the capabilities of a financially constrained resource provider.
 This is very similar to the goals of Grid computing but making use of IaaS platforms.
 
 The aim of the HVWG was to propose policies so resource providers have a way to control and manage Virtual Appliances like Virtual Machine (VM) Image's provided by experimenters, that need to be executed in a trusted environment, similar to the current computing environment provided under Grid computing. 
-The authors of this paper are members of the EGI-federatred cloud task force collaborating with a developer and a former member of the HVWG~\cite{hepix}.
+The authors of this paper are members of the EGI-federatred Cloud task force collaborating with a developer and a former member of the HVWG~\cite{hepix}.
 
-It is organised in the following sections. First, Section~\ref{sect-relatedwork} presents the state of the art regarding Cloud framework VM management, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, the new tools proposed by HVWG for image management. 
+This paper is organised in the following sections. First, Section~\ref{sect-relatedwork} presents the state of the art regarding Cloud framework VM management, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, the new tools proposed by HVWG for image management. 
 Section~\ref{sect-handlers} explains how VMcatcher event handlers work, and how VMcatcher plugins support different Cloud frameworks like OpenNebula or OpenStack.
 Finally Section~\ref{sect-conclusions} will present our conclusions and planned future work.
 
 \section{Related Work}
 \label{sect-relatedwork}
-The use of Cloud infrastructures it is a very promising filed in science, but integrating Clouds with the Grid is a challenge, as related on Dillon et al.~\cite{Dillon2010}. Goasguen et al.~\cite{Goasguen2012} presents the results of an internal production Cloud service in CERN and suggests to expand it to other Grid sites. Zhao et al.~\cite{Zhao2012} present a infrastructure of a dozen computing sites using OpenNebula as the management solution. It concludes that Clouds are very useful for science, but there are still many performance issues to be resolved. Hoffa et al.~\cite{Hoffa2008} reached similar conclusions regarding Cloud vs local deployments.
+The use of Cloud infrastructures it is a very promising filed in science, but integrating Clouds with the Grid is a challenge, as related on Dillon et al.~\cite{Dillon2010}. Goasguen et al.~\cite{Goasguen2012} presents the results of an internal production Cloud service in CERN and suggest to expand it to other Grid sites. Zhao et al.~\cite{Zhao2012} present an infrastructure of a dozen computing sites using OpenNebula as the management solution. It concludes that Clouds are very useful for science, but there are still many performance issues to be resolved. Hoffa et al.~\cite{Hoffa2008} reached similar conclusions regarding Cloud vs local deployments.
 
-There are also many works that compare the different solutions for VM Management, like Xiaolong et al.~\cite{Xiaolong2012}, which compares OpenNebula and Openstack, and Laszewski et al.~\cite{Laszewski2012}, which does a more complete survey including Eucalyptus, Nimbus and some other frameworks. The existence of numerous trade-offs and the fragmented market for these tools motivated us to support cross-grid environments.
+There are also many works that compare the different solutions for VM Management, like Xiaolong et al.~\cite{Xiaolong2012}, which compares OpenNebula and Openstack, and Laszewski et al.~\cite{Laszewski2012}, which does a more complete survey including Eucalyptus, Nimbus and some other frameworks. The existence of numerous trade-offs and the fragmented market for these tools motivated us to support federated environments.
 
 In the realm of security, our solution emphasizes the authentication of users and the validation of VMs. There are other works on the area, but some, like Xi et al.~\cite{Xi2012} are concerned more with running trusted VMs on on untrusted environments, which can be seen as the opposite problem, and many others, like Schwarzkopf et al.~\cite{Schwarzkopf2012} are concerned with improving the internal security of VMs maintained by Cloud users instead of infrastructure operators.
 
-There are still other comparable solutions, Lagar-Cavilla et al.~\cite{Lagar-Cavilla2009} use a non-local fork mechanism to spawn many copies of a VM across many sites, but this method would be at odds with current Grid practices. Diaz et al.~\cite{Diaz2012} have a similar system that bridges OpenNebula and OpenStack, but it uses the Amazon EC2 API, which has licensing issues preventing us for using it, and does not address the authorization and validation of VMs. On a more partial resemblance, Maurer et al.~\cite{Maurer2013} also automates some aspects of VM management and updates it using an autonomous system, and Django et al.~\cite{Django2013} changes the context of VMs on the fly to do load balancing and improve brokering. This last functionality would be invaluable for Grid operators, which must frequently tend to processes that get stuck due to unrealistic brokering requirements, and would also avoid many downtimes due to reconfiguration.
+There are still other comparable solutions, Lagar-Cavilla et al.~\cite{Lagar-Cavilla2009} use a non-local fork mechanism to spawn many copies of a VM across many sites, but this method would be at odds with current Grid practices. Diaz et al.~\cite{Diaz2012} have a similar system that bridges OpenNebula and OpenStack, but it uses the Amazon EC2 API, which has licensing issues preventing us for using it, and does not address the authorization and validation of VMs. On a more partial resemblance, Maurer et al.~\cite{Maurer2013} also automate some aspects of VM management and updates it using an autonomous system, and Django et al.~\cite{Django2013} changes the context of VMs on the fly to do load balancing and improve brokering. This last functionality would be invaluable for Grid operators, which must frequently tend to processes that get stuck due to unrealistic brokering requirements, and would also avoid many downtimes due to reconfiguration.
 
 
 \section{Appliance Lifecycle Management using Imagelists}
 \label{sect-vmcaster}
-The HVWG proposed a message system to decouple appliance maintainers from cloud implementations, this decoupling could be used to hide the heterogeneous nature of a federated cloud. 
+The HVWG proposed a message system to decouple appliance maintainers from Cloud implementations, this decoupling could be used to hide the heterogeneous nature of a federated Cloud. 
 This proposal is based upon SMIME and so is neutral of the method of signing and is applicable to both PGP or X.509 signatures.
 
 The imagelists are published via HTTP and polled by the subscribers, the signature is checked, subscribed and referenced. The image is downloaded and the validity as an appliance checked using the secure hash. 
-If the appliance image is valid the appliance is then able to be contextualised and then instantiated (see figure \ref{fig:infrastructure}) automaticaly if the resource provider supports this.
+If the appliance image is valid the appliance is then able to be contextualised and then instantiated automaticaly if the resource provider supports this.
 
 \begin{figure}
 \centering
@@ -127,12 +132,12 @@ If the appliance image is valid the appliance is then able to be contextualised 
 \label{fig:infrastructure}
 \end{figure}
 
-By using this mechanism an appliance image can be checked for validity, all image lists are signed and it provide a version number and expiration date. 
-If the image list does not satisfy these requirements the image is not instantiated and the image is not deemed valid.
+By using this mechanism an appliance image can be checked for validity, all image lists are signed and they provide a version number and expiration date. 
+If the image list does not satisfy these requirements the image is not downloaded and it is set as not valid.
 
 The subscription process is similar to Debian's package managing tool (\textit{aptitude}) or the rpm update management (\textit{yum}) utilities or a podcast subscriber. 
 Publishing is similar to \textit{create-repo} which publishes rpm packages rather than virtual machines Appliances. 
-But two major differences exist in the HVWG's proposals, each image is uniquely identified by a UUID, and that Appliance image no longer present in an image list indicates its expiration rather than an error as it would with package management.
+The HVWG's proposals includes two main differences, each image is uniquely identified by an UUID, and VMIs no longer present in an image list indicates its expiration/revocation rather than an image list error.
 
 
 VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} are two different tools to generate and subscribe to virtual machine image lists created and designed by HVWG members.
@@ -144,10 +149,9 @@ During the last year the EGI federated Cloud task force has recommended VMcatche
 
 In this case since the software is made with the Grid in mind and to avoid {\it man in the middle} security issues, VMcaster/VMcatcher tools support the X.509 certificate authentication model.
 All the image lists are signed by an authenticated endorser with his/her personal X.509 certificate. 
-This means all images are referenced by an Virtual Machine Image List which contains a secure hash (SHA512) signed using X.509 personal certificates (provided by the image list endorser). 
+This means all images are referenced by a Virtual Machine Image List which contains a secure hash (SHA512) signed using X.509 personal certificates (provided by the image list endorser). 
 These Virtual Machine Image Lists are published, and interested sites can subscribe to the Lists in the resulting catalogue. 
 
-When a resource provider receives an user instantiation request, the image validity is checked. If the Virtual Machine Image List is valid, the Image is contextualised and then instantiated (see figure \ref{fig:infrastructure}). 
 Another important feature of VMcaster/VMcatcher is the support of Cloud framework agnostic tools, i.e. these tools do not depend on the Cloud solution used by the sites. Besides it can be integrated with different frameworks using different plugins to use the new images directly from for example, OpenNebula or OpenStack (see section~\ref{sect-handlers} for more information).
 
 
@@ -201,7 +205,7 @@ $ vmcaster --select-imagelist <image_list_UUID> \
 
 $ vmcaster --select-imagelist <image_list_UUID> \ 
 --key-set-imagelist "hv:uri" --key-value-imagelist \ 
-"http://cloud.cesga.es/files/image.list"
+"http://Cloud.cesga.es/files/image.list"
 
 $ vmcaster --select-endorser \ 
 "/DC=es/DC=irisgrid/O=cesga/CN=alvarosimon" \
@@ -217,7 +221,7 @@ The image list endorser only has to generate a new UUID and insert the relevant 
  \item \textit{sl:osversion}: The Operating System version as LSB compliant. As example Scientific Linux release 6.4 (Carbon).
  \item \textit{sl:arch}: System architecture (x86\_64, i386 etc).
  \item \textit{sl:os}: Operating System name (Ubuntu, Debian, RedHat..).
- \item \textit{hv:uri}: Image location endpoint. The image must be accesible from this url. As example \url{http://cloud.cesga.es/images/debian-6.0.5-x86_64-base.qcow2}
+ \item \textit{hv:uri}: Image location endpoint. The image must be accesible from this url. As example \url{http://Cloud.cesga.es/images/debian-6.0.5-x86_64-base.qcow2}
  \item \textit{hv:format}: VM image format (QCOW2, RAW)
 \end{itemize}
 All the new images should be assigned to a image list, we can include the same image in different image lists. To add a new image to a specific image list:
@@ -227,7 +231,7 @@ $ vmcaster --select-imagelist <IMAGE_LIST_UUID> \
 --imagelist-add-image --select-image <IMAGE_UUID>
 \end{verbatim}
 
-VMcaster can be configured to syncronize and upload local images to a specific server endpoint. This mechanism allows to VMcaster users to upload images and image lists to a web server in an automated way.
+VMcaster can be configured to syncronize and upload local images to a specific server endpoint. This mechanism allows VMcaster users to upload images and image lists to a web server in an automated way.
 This information is located into a configuration file (\textit{/etc/vmcaster/vmcaster.cfg}). This mechanism is very useful for Image List endorsers as they can use this configuration file to include several servers to keep the image lists up to date in a short period of time.
 \textit{vmcaster.cfg} file uses this schema:
 \begin{verbatim}
@@ -246,47 +250,8 @@ vmcaster --upload-image <local_image_path> \
 \end{verbatim}
 
 VMcaster detects the image size and generates a SHA512 hash for each uploaded image. When this process is complete the updated information is included into the VMcaster database automatically.
-
-At the end the information can be gathered from the local database, as example using JSON format image list:
-\begin{verbatim}
-{
-    "hv:imagelist": {
-        "dc:date:created": "2013-03-18T16:52:55Z", 
-        "dc:date:expires": "2014-04-15T16:52:55Z", 
-        "dc:description": "CESGA image list for internal usage", 
-        "dc:identifier": "2204eed5-f37e-45b9-82c6-85697356109c", 
-        "dc:source": "CESGA", 
-        "dc:title": "CESGA image list", 
-        "hv:endorser": {
-            "hv:x509": {
-                "dc:creator": "Alvaro Simon Garcia", 
-                "hv:ca": "/DC=es/DC=irisgrid/CN=IRISGridCA", 
-                "hv:dn": "/DC=es/DC=irisgrid/O=cesga/CN=alvarosimon", 
-                "hv:email": "asimon@cesga.es"
-            }
-        }, 
-        "hv:images": [
-            {
-            {
-                "hv:image": {
-                    "dc:description": "UI-UMD3.0.0", 
-                    "dc:identifier":\ 
-"9d6b140f-7a08-4f8c-8c25-3564bcb50e33", 
-                    "dc:title": "EMI-UI", 
-                    "hv:format": "QCOW2", 
-                    "hv:hypervisor": "QEMU,KVM",  
-                    "hv:uri":\ 
-"http://cloud.cesga.es/images/test_ui_image.QCOW2", 
-                    "hv:version": "0.0.1", 
-                }
-            }
-        ], 
-        "hv:uri": "http://cloud.cesga.es/files/image.list", 
-        "hv:version": "2.9"
-    }
-}
-\end{verbatim}
-By reading the image list example in JSON format, a future subscriber can identify the available images, the image list creation/expiration dates or the endorser DN.
+At the end the information can be gathered from the local database. 
+The image list information can be displayed in JSON format, a future subscriber can identify the available images, the image list creation/expiration dates or the endorser DN.
 
 When the image list is ready and updated the endorser can publish it to all sites included into the \textit{vmcaster.cfg} file. 
 The procedure is quite similar to the image uploading, but in this case, the image must be signed by the endorser certificate to validate its authenticity.
@@ -296,27 +261,34 @@ $ vmcaster --select-imagelist <IMAGE_LIST_UUID> --upload-imagelist
 \end{verbatim}
 This procedure allows different image endorsers to distribute and update image catalogs on different endpoints and sites (which is suitable for a federated architecture).
 Besides, all image lists have endorsed information about endorser certificate public key, image download endpoint, initial global validity, etc. 
-That means valid images can be selected, downloaded and instantiated and tested by different resource provides. 
-The new images should be verified by the image list endorser but fedcloud resource provides have the final say about its inclusion into their Cloud image repositories. 
+That means valid images can be selected, downloaded and instantiated and tested by different resource providers.
+
+The new images should be verified by the image list endorser but fedCloud resource provides have the final say about its inclusion into their Cloud image repositories. 
 Image subscription task is done by VMcatcher utility described in the next section.
 
 
 \subsection{Subscribing to image lists}
-VMcatcher~\cite{vmcatcher} is currently the only HVWG compliant image list subscriber, and only supports JSON meta data and X.509 signatures. Since the Grid community already use the International Grid Trust Federation~\cite{igtf} supporting just x.509 is acceptable for the current stage for the Federated cloud task force so these limitations nave not hindered this investigation. 
+VMcatcher~\cite{vmcatcher} is currently the only HVWG compliant image list subscriber, and only supports JSON meta data and X.509 signatures. Since the Grid community already use the International Grid Trust Federation~\cite{igtf} supporting just X.509 is acceptable for the current stage for the Federated Cloud task force so these limitations have not hindered this investigation. 
 It is recommended that future HVWG image list providers support PGP and X.509 signatures.
 
-VMcatcher allows subscription of virtual machine images by UUID so that a resource provider can provide contextualised appliance images from the most recent appliance image. Resource providers can configure their own image lists and select images from an image list, these are then validated in compliance with the HVWG security policies and cached locally. 
-VMcatcher does not support any cloud explicitly so further work is needed in this area.
+VMcatcher allows subscription of virtual machine images by UUID so that a resource provider can provide contextualised appliance images from the most recent appliance image. Resource providers can configure their own image lists and select images from different image lists or a Marketplaces, these are then validated in compliance with the HVWG security policies and cached locally. 
+VMcatcher does not support any Cloud explicitly so further work is needed in this area (see next section).
 
 VMcaster can be configured to launch applications on image status change events such as expiry or new images becoming available. The federated Cloud task force has developed such integration handlers for managing Appliance Life cycle management with OpenStack and OpenNebula.
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth]{egi_model.png}
+\caption{EGI FedCloud Image Management model}
+\label{fig:egimodel}
+\end{figure}
 
-Using this utility users can select and download trusted images.
+Using this utility users can select and download trusted images (see figure \ref{fig:egimodel}).
 This utility caches the selected images in a image list, validates the list with X.509 based public key cryptography, and also checks the images SHA512 hashes. 
 
 VMcatcher and VMcaster work in a similar way. They are based upon a local database that stores subscriptions to VM image lists, registered endorsers, and which images belong to which subscriptions. 
 This enables images to be selected for subscription. An user can select the desired image from the lists and then set the desired image subscriptions.
 Subscribed images can be downloaded, verified and cached. VMcatcher also verifies if the cached images have expired or not. If an image is invalid or it has expired it is moved to an expiry directory.
-The image consumer must trust in a endorser, in this case users can include and confirm their trust in a image endorser based on his/her X.509 certificate Distinguished Name (DN).
+The image consumer must trust a endorser, in this case users can include and confirm their trust in a image endorser based on his/her X.509 certificate Distinguished Name (DN).
 To include a new trusted endorser:
 \begin{verbatim}
 $ vmcatcher_endorser --create --endorser_uuid='Alvaro Simon' \
@@ -325,7 +297,7 @@ $ vmcatcher_endorser --create --endorser_uuid='Alvaro Simon' \
 \end{verbatim}
 And now the user only has to download the desired image list from the endpoint and import it into a local VMcaster database:
 \begin{verbatim}
-$ wget http://cloud.cesga.es/files/image.list
+$ wget http://Cloud.cesga.es/files/image.list
 $ vmcatcher_subscribe -s file:////`pwd`/image.list
 \end{verbatim}
 At this point the image user can show and select any image UUID from the new list to be downloaded. 
@@ -378,45 +350,38 @@ The new package (\textit{glancepush-vmcatcher}) is available from the IN2P3 ftp 
 \section{Conclusions and Future work}
 \label{sect-conclusions}
 The management of virtual machine images is a critical task within a federated Cloud architecture. It involves certain safety standards and special scalability and availability and stability requirements.
-Taking into account these needs the EGI Fedcloud taks force has chosen VMcaster and VMcatcher utilities to distribute and validate VM images between the resource providers.
-Fedcloud resource providers are using heterogenous Cloud frameworks ecosystems (OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). This kind of federated infrastructure requires agnostic tools.
+Taking into account these needs the EGI FedCloud taks force has chosen VMcaster and VMcatcher utilities to distribute and validate VM images between the resource providers.
+FedCloud resource providers are using heterogenous Cloud frameworks ecosystems (OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). This kind of federated infrastructure requires agnostic tools.
 Fortunately as we have explained in this paper, VMcatcher can be used by any Cloud framework to distribute and update images in a transparent way. 
-The new image management tools are being successfully used by EGI Fedcloud providers since last year and it will be used in more use cases in the near future.
+The new image management tools are being successfully used by EGI FedCloud providers since last year and it will be used in more use cases in the near future.
 
-The greatest benefit for the EGI-federatred cloud task force is to simplify the management of IaaS systems with respect to the native IaaS Clouds own API's. 
-However this Cloud implementation neutrality also increases the Interoperability challenges. 
-The HVWG propsal is esentially federated with a distributed system, has no single point of failure or any single service in control, and complies with a policy that was agreed by the mebers of the HVWG as a secure best practice.
+The greatest benefit for the EGI-federated Cloud task force is to simplify the management of IaaS systems with respect to the native IaaS Clouds own APIs. 
+However this Cloud implementation neutrality also increases the interoperability challenges. 
+The HVWG proposal is esentially federated with a distributed system, has no single point of failure or any single service in control, and complies with a policy that was agreed by the mebers of the HVWG as a secure best practice.
 The use of a simple signed lists of endorsed Appliances in these proposals is equally applicable to all PKI infrastructures supported by SMIME. 
 
 
 We believe that the HVWG proposal to manage Appliance Lifecycle, with signed messages is valid and expressive enough for federating appliances. 
 Appliance image distribution and management is typically I/O bound and so asynchronous in nature signed aplliance images list provide a simple and clear way of managing appliance images that can be audited by resource providers. 
-We found the clear definition of valid and invalid/expired images, and the distributed nature of Appliance lists a natural fit to a federated cloud and worth testing.
+We found the clear definition of valid and invalid/expired images, and the distributed nature of Appliance lists a natural fit to a federated Cloud and worth testing.
 
-By testing the use of HVWG proposed image distribution system, with the tools VMcaster and VMcatcher, and developing event handlers for vmcatcher, the Federated Cloud Task force has proved that this approach is a distributed system for image distribution, for both Open Stack and Open Nebuala resource providers. 
-The Fedcloud task force has validated VMcaster and VMcatcher utilities as production grade implementation, and will continue to use them to distribute and validate VM images.
+By testing the use of HVWG proposed image distribution system, with the tools VMcaster and VMcatcher, and developing event handlers for vmcatcher, the Federated Cloud Task force has proved that this approach is a distributed system for image distribution, for both Open Stack and OpenNebula resource providers. 
+The FedCloud task force has validated VMcaster and VMcatcher utilities as production grade implementation, and will continue to use them to distribute and validate VM images.
 
-The EGI Fedcloud task force is committed to support these new image managements tools in the future and development work is still ongoing within the project. 
+The EGI FedCloud task force is committed to support these new image managements tools in the future and development work is still ongoing within the project. 
 The GRNET partner is developing a new Virtual Appliance Marketplace based on EGI Applications Database (EGI AppDB), a project service which stores and provides to the public information about Grid software solutions created by the scientists and programmers.
 This service was extended to create a Virtual Appliance Marketplace to bring a new category of software entries or virtual appliances, which are virtual machine images designed to run on a virtualization platform.
 AppDB's Virtual Appliance Marketplace was integrated with the existing HVWG VMCaster/VMCatcher framework.
 
-\begin{figure}
-\centering
-\includegraphics[width=1\textwidth]{egi_model.png}
-\caption{EGI Fedcloud Image Management model}
-\label{fig:egimodel}
-\end{figure}
-
-EGI Marketplace uses VMcatcher to download and update the new images included into EGI Image list and provides this list to Fedcloud users.  
+EGI Marketplace uses VMcatcher to download and update the new images included into EGI Image list and provides this list to FedCloud users.  
 The basic image management features were embedded in the Marketplace, such as creating, publishing, enabling/disabling, and archiving or deleting Virtual Appliances or VM image versions.
-Besides, a friendly site can include its own image list to be published by the Marketplace (see figure \ref{fig:egimodel}). 
+Besides, a friendly site can include its own image list to be published by the Marketplace. 
 With the new service any authorised user (using her/his X.509 certificate) will be able to submit or upload VA version metadata (in the form of signed image lists).
  
-Project RPs can subscribe to specific Virtual Appliances or to the Marketplace image list. Using this mechanism a trusted Fedcloud user group, Virtual Organization or experiment can disseminate its Virtual Appliances or Images among project RPs in a short period of time.
-Fedcloud Resource Providers site admins only have to subscribe to the new images using VMcatcher, and the images will be available automatically thanks to the image management event handlers.
+Project RPs can subscribe to specific Virtual Appliances or to the Marketplace image list. Using this mechanism a trusted FedCloud user group, Virtual Organization or experiment can disseminate its Virtual Appliances or Images among project RPs in a short period of time.
+FedCloud Resource Providers site admins only have to subscribe to the new images using VMcatcher, and the images will be available automatically thanks to the image management event handlers.
 
-This image management model is still under development and testing, but it will be available in production and useable by EGI users in the next months.
+This image management model is still under development and testing, but it will be available in production and usable by EGI users in the next months.
 
 \section{Acknowledgements}
 \label{sect-acknowledgements}
@@ -429,6 +394,16 @@ Programme. EGI-InSPIRE began in May 2010 and will run for 4 years. Full informat
 
 \begin{thebibliography}{99}
 
+\bibitem{egi}
+The EGI-InSPIRE project. \\
+\texttt{https://www.egi.eu/about/egi-inspire/}, 2013 \\
+\textit{Last visit on April 2014}
+
+\bibitem{fedCloud}
+EGI Federated Clouds Task Force. \\
+\texttt{https://wiki.egi.eu/wiki/FedCloud-tf:FederatedCloudsTaskForce}, 2013 \\
+\textit{Last visit on April 2014}
+
 \bibitem{Dillon2010}
 Dillon, T. et al.: Cloud Computing: Issues and Challenges.
 Advanced Information Networking and Applications (AINA), 2010 24th IEEE International Conference, pp.~27--33
@@ -438,7 +413,7 @@ Hoffa, C. et al.: On the Use of Cloud Computing for Scientific Workflows.
 eScience, 2008. eScience '08. IEEE Fourth International Conference, pp. ~640--645
 
 \bibitem{Lagar-Cavilla2009}
-Lagar-Cavilla: SnowFlock: rapid virtual machine cloning for cloud computing.
+Lagar-Cavilla: SnowFlock: rapid virtual machine cloning for Cloud computing.
 Proceedings of the 4th ACM European conference on Computer systems, EuroSys 2009, pp.~1--12
 
 \bibitem{Xi2012} 
@@ -465,7 +440,7 @@ Future Generation Computer Systems,
 Vol.~29, 2013, No.~2, pp.~472--487
 
 \bibitem{Schwarzkopf2012}
-Schwarzkopf, R. et al.: Increasing virtual machine security in cloud environments.
+Schwarzkopf, R. et al.: Increasing virtual machine security in Cloud environments.
 Journal of Cloud Computing,
 Vol.~1, 2012, No.~1, pp.~1-12
 
@@ -474,12 +449,12 @@ Yong, Z. et al.: Designing and Deploying a Scientific Computing Cloud Platform.
 Grid Computing (GRID), 2012 ACM/IEEE 13th International Conference, pp.~104--113
 
 \bibitem{Goasguen2012}
-Goasguen, S. et al.: Lxcloud : a prototype for an internal cloud in HEP. Experiences and lessons learned.
+Goasguen, S. et al.: LxCloud : a prototype for an internal Cloud in HEP. Experiences and lessons learned.
 Journal of Physics: Conference Series,
 Vol.~396, 2012, No.~3
 
 \bibitem{Xiaolong2012}
-Wen, X. et al.: Comparison of open-source cloud management platforms: OpenStack and OpenNebula.
+Wen, X. et al.: Comparison of open-source Cloud management platforms: OpenStack and OpenNebula.
 Fuzzy Systems and Knowledge Discovery (FSKD), 2012 9th International Conference, pp.~2457--2461
 
 
@@ -518,8 +493,8 @@ Salomoni, D. et al.: WNoDeS, a tool for integrated Grid and Cloud access and com
 Journal of Physics: Conference Series,
 Vol.~331, 2011
 
-\bibitem{gridcloud}
-Zhang, S. et al.: The comparison between cloud computing and grid computing.
+\bibitem{gridCloud}
+Zhang, S. et al.: The comparison between Cloud computing and grid computing.
 Computer Application and System Modeling (ICCASM),
 Vol.~11, 2010, pp.~72--75.
 
@@ -540,7 +515,7 @@ EGI Applications Database. \\
 
 
 \bio{}Owen ,Synge\\ is an experienced software developer. He graduated in biochemestry in 1996 at the University of Bristol and in Compute Science in 1997 at the University of York. He has led the design, implementation, and the deploy of many software products in different sites from Universities to International research centers, for the Large Hadron Colliders Computing Grid, which is now successfully investigating the Higgs Boson. 
-He has worked as a professional developer on various Linux platforms for 11 years, for large scale research computing problems. Currently he is working at Zurich University of Applied Sciences as senior researcher.
+He has worked as a professional developer on various Linux platforms for 11 years, for large scale research computing problems. Currently he is working at SUSE as expert developer in distributed storage.
 
 
 \label{lastpage}
