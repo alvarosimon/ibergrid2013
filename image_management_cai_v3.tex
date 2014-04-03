@@ -81,10 +81,10 @@ One of these projects which is intragrating its Cloud services is EGI-InSPIRE~\c
 Federating these Cloud resources is a major priority for EGI that has started within the EGI Federated Cloud Taskforce~\cite{fedCloud}.
 
 Project like EGI are using different APIs, Cloud frameworks, storage systems etc. 
-However this technology agnosticism increases the interoperability challenges. One of the most pressing forces is the managing of VM images within a federated Cloud infrastructure.
+However this technology agnosticism increases the interoperability challenges. One of the most pressing forces is the managing of VM images (VMIs) within a federated Cloud infrastructure.
 A federated Cloud increases the difficulty of this management, since it uses different Cloud APIs, image formats, contextualisation mechanisms and so on. 
 
-With virtual appliances like VM images on Cloud IaaS resources the complications due to the integration of multiple components and dependencies of a service can be managed closer to the appliance creator or maintainer without need for the Cloud resource provider to be involved. 
+With virtual appliances like VMIs on Cloud IaaS resources the complications due to the integration of multiple components and dependencies of a service can be managed closer to the appliance creator or maintainer without need for the Cloud resource provider to be involved. 
 Cloud IaaS has shown great commercial success, new Cloud software stacks are being developed, and many companies and research institutes are deploying these Clouds for both public and private use. 
 The EGI-Inspire project is an excellent testbed which brings together many sites, running multiple IaaS Cloud implementations within a production Federated Cloud infrastructure.
 
@@ -125,13 +125,6 @@ This proposal is based upon SMIME and so is neutral of the method of signing and
 The imagelists are published via HTTP and polled by the subscribers, the signature is checked, subscribed and referenced. The image is downloaded and the validity as an appliance checked using the secure hash. 
 If the appliance image is valid the appliance is then able to be contextualised and then instantiated automaticaly if the resource provider supports this.
 
-\begin{figure}
-\centering
-\includegraphics[width=1\textwidth]{vmcaster_vmcatcher.png}
-\caption{VMcaster and VMcatcher infrastructure.}
-\label{fig:infrastructure}
-\end{figure}
-
 By using this mechanism an appliance image can be checked for validity, all image lists are signed and they provide a version number and expiration date. 
 If the image list does not satisfy these requirements the image is not downloaded and it is set as not valid.
 
@@ -140,9 +133,16 @@ Publishing is similar to \textit{create-repo} which publishes rpm packages rathe
 The HVWG's proposals includes two main differences, each image is uniquely identified by an UUID, and VMIs no longer present in an image list indicates its expiration/revocation rather than an image list error.
 
 
-VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} are two different tools to generate and subscribe to virtual machine image lists created and designed by HVWG members.
+VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} are two different tools to generate and subscribe to virtual machine image lists created and designed by HVWG members (see figure \ref{fig:infrastructure}).
 These tools use an internal database (in the same way that the internal databases used by podcast syndication or a Linux package manager) where images information and lists are stored into an internal SQLite database.
 SQLite has proved more than adequate for the low transaction rate of a image list subscriber and so deployment issues are just backing up a database file.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth]{vmcaster_vmcatcher.png}
+\caption{VMcaster and VMcatcher infrastructure.}
+\label{fig:infrastructure}
+\end{figure}
 
 These tools try to match the requirements set by the now completed HEPiX virtualisation working group~\cite{hepix}.
 During the last year the EGI federated Cloud task force has recommended VMcatcher installation in its Cloud resource providers.
@@ -189,7 +189,7 @@ $ vmcaster --select-imagelist dfc470ab-0845-4c3b-bc6a-02f990388a17 \
 \end{verbatim}
 The object \textit{dc:identifier} contains always an UUID and it is included in images or image lists. 
 At this moment the image list does not include any relevant information but thanks to the VMcaster utility the image list endorser can introduce new metadata and information.
-The most important objects are: the image title, its description, its endpoint (a valid \textit{url}) and also the endorser unique certificate DN. Only a trusted endorser can modify or update an VMcaster image list to include or remove VM images. 
+The most important objects are: the image title, its description, its endpoint (a valid \textit{url}) and also the endorser unique certificate DN. Only a trusted endorser can modify or update an VMcaster image list to include or remove VMIs. 
 These values can be included into the internal database running these commands, as example:
 \begin{verbatim}
 $ vmcaster --select-imagelist <image_list_UUID> \
@@ -350,7 +350,7 @@ The new package (\textit{glancepush-vmcatcher}) is available from the IN2P3 ftp 
 \section{Conclusions and Future work}
 \label{sect-conclusions}
 The management of virtual machine images is a critical task within a federated Cloud architecture. It involves certain safety standards and special scalability and availability and stability requirements.
-Taking into account these needs the EGI FedCloud taks force has chosen VMcaster and VMcatcher utilities to distribute and validate VM images between the resource providers.
+Taking into account these needs the EGI FedCloud taks force has chosen VMcaster and VMcatcher utilities to distribute and validate VMIs between the resource providers.
 FedCloud resource providers are using heterogenous Cloud frameworks ecosystems (OpenStack, OpenNebula, WNoDES~\cite{wnodes}, etc). This kind of federated infrastructure requires agnostic tools.
 Fortunately as we have explained in this paper, VMcatcher can be used by any Cloud framework to distribute and update images in a transparent way. 
 The new image management tools are being successfully used by EGI FedCloud providers since last year and it will be used in more use cases in the near future.
@@ -366,19 +366,19 @@ Appliance image distribution and management is typically I/O bound and so asynch
 We found the clear definition of valid and invalid/expired images, and the distributed nature of Appliance lists a natural fit to a federated Cloud and worth testing.
 
 By testing the use of HVWG proposed image distribution system, with the tools VMcaster and VMcatcher, and developing event handlers for vmcatcher, the Federated Cloud Task force has proved that this approach is a distributed system for image distribution, for both Open Stack and OpenNebula resource providers. 
-The FedCloud task force has validated VMcaster and VMcatcher utilities as production grade implementation, and will continue to use them to distribute and validate VM images.
+The FedCloud task force has validated VMcaster and VMcatcher utilities as production grade implementation, and will continue to use them to distribute and validate VMIs.
 
 The EGI FedCloud task force is committed to support these new image managements tools in the future and development work is still ongoing within the project. 
 The GRNET partner is developing a new Virtual Appliance Marketplace based on EGI Applications Database (EGI AppDB), a project service which stores and provides to the public information about Grid software solutions created by the scientists and programmers.
-This service was extended to create a Virtual Appliance Marketplace to bring a new category of software entries or virtual appliances, which are virtual machine images designed to run on a virtualization platform.
+This service was extended to create a Virtual Appliance Marketplace to bring a new category of software entries or virtual appliances (VAs), which are virtual machine images designed to run on a virtualization platform.
 AppDB's Virtual Appliance Marketplace was integrated with the existing HVWG VMCaster/VMCatcher framework.
 
 EGI Marketplace uses VMcatcher to download and update the new images included into EGI Image list and provides this list to FedCloud users.  
-The basic image management features were embedded in the Marketplace, such as creating, publishing, enabling/disabling, and archiving or deleting Virtual Appliances or VM image versions.
+The basic image management features were embedded in the Marketplace, such as creating, publishing, enabling/disabling, and archiving or deleting VAs or VMI versions.
 Besides, a friendly site can include its own image list to be published by the Marketplace. 
 With the new service any authorised user (using her/his X.509 certificate) will be able to submit or upload VA version metadata (in the form of signed image lists).
  
-Project RPs can subscribe to specific Virtual Appliances or to the Marketplace image list. Using this mechanism a trusted FedCloud user group, Virtual Organization or experiment can disseminate its Virtual Appliances or Images among project RPs in a short period of time.
+Project RPs can subscribe to specific VAs or to the Marketplace image list. Using this mechanism a trusted FedCloud user group, Virtual Organization or experiment can disseminate its VAs or Images among project RPs in a short period of time.
 FedCloud Resource Providers site admins only have to subscribe to the new images using VMcatcher, and the images will be available automatically thanks to the image management event handlers.
 
 This image management model is still under development and testing, but it will be available in production and usable by EGI users in the next months.
