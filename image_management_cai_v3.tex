@@ -84,7 +84,7 @@ Project like EGI are using different APIs, Cloud frameworks, storage systems etc
 However this technology agnosticism increases the interoperability challenges. One of the most pressing forces is the managing of VM images (VMIs) within a federated Cloud infrastructure.
 A federated Cloud increases the difficulty of this management, since it uses different Cloud APIs, image formats, contextualisation mechanisms and so on. 
 
-With virtual appliances like VMIs on Cloud IaaS resources the complications due to the integration of multiple components and dependencies of a service can be managed closer to the appliance creator or maintainer without need for the Cloud resource provider to be involved. 
+With Virtual Appliances (VAs) like VMIs on Cloud IaaS resources the complications due to the integration of multiple components and dependencies of a service can be managed closer to the appliance creator or maintainer without need for the Cloud resource provider to be involved. 
 Cloud IaaS has shown great commercial success, new Cloud software stacks are being developed, and many companies and research institutes are deploying these Clouds for both public and private use. 
 The EGI-Inspire project is an excellent testbed which brings together many sites, running multiple IaaS Cloud implementations within a production Federated Cloud infrastructure.
 
@@ -99,7 +99,7 @@ IaaS Clouds have been been deployed at many sites where they are actively used b
 Secondary goals include providing a unification of IaaS resources from a user experience and from resource sharing, with quality of service to be extended beyond the capabilities of a financially constrained resource provider.
 This is very similar to the goals of Grid computing but making use of IaaS platforms.
 
-The aim of the HVWG was to propose policies so resource providers have a way to control and manage Virtual Appliances like Virtual Machine (VM) Image's provided by experimenters, that need to be executed in a trusted environment, similar to the current computing environment provided under Grid computing. 
+The aim of the HVWG was to propose policies so resource providers have a way to control and manage VAs like Virtual Machine (VM) Image's provided by experimenters, that need to be executed in a trusted environment, similar to the current computing environment provided under Grid computing. 
 The authors of this paper are members of the EGI-federatred Cloud task force collaborating with a developer and a former member of the HVWG~\cite{hepix}.
 
 This paper is organised in the following sections. First, Section~\ref{sect-relatedwork} presents the state of the art regarding Cloud framework VM management, Section~\ref{sect-vmcaster} describes the VMcaster/VMcatcher image management tools, the new tools proposed by HVWG for image management. 
@@ -133,8 +133,8 @@ Publishing is similar to \textit{create-repo} which publishes rpm packages rathe
 The HVWG's proposals includes two main differences, each image is uniquely identified by an UUID, and VMIs no longer present in an image list indicates its expiration/revocation rather than an image list error.
 
 
-VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} are two different tools to generate and subscribe to virtual machine image lists created and designed by HVWG members (see figure \ref{fig:infrastructure}).
-These tools use an internal database (in the same way that the internal databases used by podcast syndication or a Linux package manager) where images information and lists are stored into an internal SQLite database.
+VMcaster~\cite{vmcaster} and VMcatcher~\cite{vmcatcher} are two different tools to generate and subscribe to virtual machine image lists created and designed by HVWG members.
+These tools use an internal database (in the same way that the internal databases used by podcast syndication or a Linux package manager) where images information and lists are stored into an internal SQLite database (see figure \ref{fig:infrastructure}).
 SQLite has proved more than adequate for the low transaction rate of a image list subscriber and so deployment issues are just backing up a database file.
 
 \begin{figure}
@@ -370,7 +370,7 @@ The FedCloud task force has validated VMcaster and VMcatcher utilities as produc
 
 The EGI FedCloud task force is committed to support these new image managements tools in the future and development work is still ongoing within the project. 
 The GRNET partner is developing a new Virtual Appliance Marketplace based on EGI Applications Database (EGI AppDB), a project service which stores and provides to the public information about Grid software solutions created by the scientists and programmers.
-This service was extended to create a Virtual Appliance Marketplace to bring a new category of software entries or virtual appliances (VAs), which are virtual machine images designed to run on a virtualization platform.
+This service was extended to create a Virtual Appliance Marketplace to bring a new category of software entries or VAs, which are virtual machine images designed to run on a virtualization platform.
 AppDB's Virtual Appliance Marketplace was integrated with the existing HVWG VMCaster/VMCatcher framework.
 
 EGI Marketplace uses VMcatcher to download and update the new images included into EGI Image list and provides this list to FedCloud users.  
